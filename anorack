@@ -39,7 +39,7 @@ def main():
     if ':' in encoding:
         [encoding, enc_errors] = encoding.rsplit(':', 1)
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, 'UTF-8')
-    espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
+    fexec = futures.ThreadPoolExecutor()
     queue = queuemod.Queue()
     def collect():
         for phon in espeak.stdout:
@@ -64,15 +64,17 @@ def main():
         if word.islower():
             word = word.title()
         espeak.stdin.write(word.encode('UTF-8') + b'.\n')
-    enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
-    fexec = futures.ThreadPoolExecutor()
-    collect_future = fexec.submit(collect)
-    for path in options.files:
-        file = lib.open_file(path, encoding=encoding, errors=enc_errors)
-        with file:
-            for loc, art, word in lib.parse_file(file):
-                enqueue(loc, art, word)
-    espeak.stdin.close()
+    espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
+    try:
+        enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
+        collect_future = fexec.submit(collect)
+        for path in options.files:
+            file = lib.open_file(path, encoding=encoding, errors=enc_errors)
+            with file:
+                for loc, art, word in lib.parse_file(file):
+                    enqueue(loc, art, word)
+    finally:
+        espeak.stdin.close()
     if espeak.wait() != 0:
         raise RuntimeError('espeak(1) failed')
     if collect_future.result() is not None:
