@@ -40,6 +40,9 @@ def choose_art(phon):
     else:
         return NotImplemented
 
+def warn(msg):
+    print('anorack: warning: ' + msg, file=sys.stderr)
+
 def main():
     espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
     queue = queuemod.Queue()
@@ -52,7 +55,7 @@ def main():
                 continue
             correct_art = choose_art(phon)
             if correct_art is NotImplemented:
-                pass # TODO
+                warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
             elif art.lower() != correct_art:
                 print('{loc}: {art} {word} -> {cart} {word}'.format(loc=i, art=art, cart=correct_art, word=word))
     def enqueue(location, art, word):
