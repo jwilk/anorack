@@ -27,7 +27,7 @@ import re
 import subprocess as ipc
 import sys
 
-find_articles = re.compile(r'\b(an?)\s+(\w+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
+find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
 
 consonants = frozenset('DSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
