@@ -23,43 +23,10 @@
 import argparse
 import concurrent.futures.thread as futures
 import queue as queuemod
-import re
 import subprocess as ipc
 import sys
 
-find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
-
-consonants = frozenset('DSTZbdfghjklmnprstvwz')
-vowels = frozenset('03@AEIOUVaeiou')
-
-def choose_art(phon):
-    try:
-        p = phon.strip(",'")[0]
-    except IndexError:
-        return NotImplemented
-    if p in consonants:
-        return 'a'
-    elif p in vowels:
-        return 'an'
-    else:
-        return NotImplemented
-
-def warn(msg):
-    print('anorack: warning: ' + msg, file=sys.stderr)
-
-def parse_file(file):
-    carry = ''
-    for i, line in enumerate(file, start=1):
-        cline = carry + line
-        carry = ''
-        for match in find_articles(cline):
-            art, word, cart = match.groups()
-            if art is not None:
-                assert word is not None
-                yield (file, i), art, word
-            else:
-                assert cart is not None
-                carry = cart + ' '
+import lib
 
 def main():
     ap = argparse.ArgumentParser()
@@ -74,9 +41,9 @@ def main():
             (loc, art, word) = queue.get()
             if art is None:
                 continue
-            correct_art = choose_art(phon)
+            correct_art = lib.choose_art(phon)
             if correct_art is NotImplemented:
-                warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
+                lib.warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
             elif art.lower() != correct_art:
                 print('{loc[0].name}:{loc[1]}: {art} {word} -> {cart} {word} /{phon}/'.format(
                     loc=loc,
@@ -99,7 +66,7 @@ def main():
         else:
             file = open(path, 'rt')
         with file:
-            for loc, art, word in parse_file(file):
+            for loc, art, word in lib.parse_file(file):
                 enqueue(loc, art, word)
     espeak.stdin.close()
     if espeak.wait() != 0:
