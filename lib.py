@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import io
 import re
 import sys
 
@@ -55,8 +56,26 @@ def parse_file(file):
                 assert cart is not None
                 carry = cart + ' '
 
+def open_file(path, *, encoding, errors):
+    '''
+    open() with special case for “-”
+    '''
+    if path == '-':
+        return io.TextIOWrapper(
+            sys.stdin.buffer,
+            encoding=encoding,
+            errors=errors,
+        )
+    else:
+        return open(
+            path, 'rt',
+            encoding=encoding,
+            errors=errors,
+        )
+
 __all__ = [
     'choose_art',
+    'open_file',
     'parse_file',
     'warn',
 ]

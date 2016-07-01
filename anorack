@@ -68,18 +68,7 @@ def main():
     fexec = futures.ThreadPoolExecutor()
     collect_future = fexec.submit(collect)
     for path in options.files:
-        if path == '-':
-            file = io.TextIOWrapper(
-                sys.stdin.buffer,
-                encoding=encoding,
-                errors=enc_errors,
-            )
-        else:
-            file = open(
-                path, 'rt',
-                encoding=encoding,
-                errors=enc_errors,
-            )
+        file = lib.open_file(path, encoding=encoding, errors=enc_errors)
         with file:
             for loc, art, word in lib.parse_file(file):
                 enqueue(loc, art, word)
