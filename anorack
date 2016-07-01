@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import argparse
 import concurrent.futures.thread as futures
 import queue as queuemod
 import re
@@ -43,39 +44,51 @@ def choose_art(phon):
 def warn(msg):
     print('anorack: warning: ' + msg, file=sys.stderr)
 
-def main():
-    espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
-    queue = queuemod.Queue()
-    def collect():
-        for phon in espeak.stdout:
-            phon = phon.decode('ASCII')
-            phon = phon.strip()
-            (i, art, word) = queue.get()
-            if art is None:
-                continue
-            correct_art = choose_art(phon)
-            if correct_art is NotImplemented:
-                warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
-            elif art.lower() != correct_art:
-                print('{loc}: {art} {word} -> {cart} {word}'.format(loc=i, art=art, cart=correct_art, word=word))
-    def enqueue(location, art, word):
-        queue.put((location, art, word))
-        espeak.stdin.write(word.title().encode('UTF-8') + b'.\n')
-    enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
-    fexec = futures.ThreadPoolExecutor()
-    collect_future = fexec.submit(collect)
+def parse_file(file):
     carry = ''
-    for i, line in enumerate(sys.stdin):
+    for i, line in enumerate(file):
         cline = carry + line
         carry = ''
         for match in find_articles(cline):
             art, word, cart = match.groups()
             if art is not None:
                 assert word is not None
-                enqueue(i, art, word)
+                yield (file, i), art, word
             else:
                 assert cart is not None
                 carry = cart + ' '
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('files', metavar='FILE', nargs='*', default=['-'])
+    options = ap.parse_args()
+    espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
+    queue = queuemod.Queue()
+    def collect():
+        for phon in espeak.stdout:
+            phon = phon.decode('ASCII')
+            phon = phon.strip()
+            (loc, art, word) = queue.get()
+            if art is None:
+                continue
+            correct_art = choose_art(phon)
+            if correct_art is NotImplemented:
+                warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
+            elif art.lower() != correct_art:
+                print('{loc[0].name}:{loc[1]}: {art} {word} -> {cart} {word}'.format(loc=loc, art=art, cart=correct_art, word=word))
+    def enqueue(loc, art, word):
+        queue.put((loc, art, word))
+        espeak.stdin.write(word.title().encode('UTF-8') + b'.\n')
+    enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
+    fexec = futures.ThreadPoolExecutor()
+    collect_future = fexec.submit(collect)
+    for path in options.files:
+        if path == '-':
+            file = sys.stdin
+        else:
+            file = open(path, 'rt')
+        with file:
+            for loc, art, word in parse_file(file):
+                enqueue(loc, art, word)
     espeak.stdin.close()
     if espeak.wait() != 0:
         raise RuntimeError('espeak(1) failed')
