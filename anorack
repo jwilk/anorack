@@ -60,6 +60,7 @@ def parse_file(file):
             else:
                 assert cart is not None
                 carry = cart + ' '
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'])
