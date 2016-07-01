@@ -46,7 +46,7 @@ def warn(msg):
 
 def parse_file(file):
     carry = ''
-    for i, line in enumerate(file):
+    for i, line in enumerate(file, start=1):
         cline = carry + line
         carry = ''
         for match in find_articles(cline):
