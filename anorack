@@ -66,8 +66,8 @@ def main():
         espeak.stdin.write(word.encode('UTF-8') + b'.\n')
     espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
     try:
-        enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
         collect_future = fexec.submit(collect)
+        enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
         for path in options.files:
             file = lib.open_file(path, encoding=encoding, errors=enc_errors)
             with file:
