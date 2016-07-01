@@ -1,0 +1,88 @@
+#!/usr/bin/python3
+
+# Copyright © 2016 Jakub Wilk <jwilk@jwilk.net>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the “Software”), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+import concurrent.futures.thread as futures
+import queue as queuemod
+import re
+import subprocess as ipc
+import sys
+
+find_articles = re.compile(r'\b(an?)\s+(\w+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
+
+consonants = frozenset('DSTZbdfghjklmnprstvwz')
+vowels = frozenset('03@AEIOUVaeiou')
+
+def choose_art(phon):
+    p = phon.strip(",'")[0]
+    if p in consonants:
+        return 'a'
+    elif p in vowels:
+        return 'an'
+    else:
+        return NotImplemented
+
+def main():
+    espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
+    queue = queuemod.Queue()
+    def collect():
+        for phon in espeak.stdout:
+            phon = phon.decode('ASCII')
+            phon = phon.strip()
+            (i, art, word) = queue.get()
+            if art is None:
+                continue
+            correct_art = choose_art(phon)
+            if correct_art is NotImplemented:
+                pass # TODO
+            elif art.lower() != correct_art:
+                print('{loc}: {art} {word} -> {cart} {word}'.format(loc=i, art=art, cart=correct_art, word=word))
+    def enqueue(location, art, word):
+        queue.put((location, art, word))
+        espeak.stdin.write(word.title().encode('UTF-8') + b'.\n')
+    enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
+    fexec = futures.ThreadPoolExecutor()
+    collect_future = fexec.submit(collect)
+    carry = ''
+    for i, line in enumerate(sys.stdin):
+        cline = carry + line
+        carry = ''
+        for match in find_articles(cline):
+            art, word, cart = match.groups()
+            if art is not None:
+                assert word is not None
+                enqueue(i, art, word)
+            else:
+                assert cart is not None
+                carry = cart + ' '
+    espeak.stdin.close()
+    if espeak.wait() != 0:
+        raise RuntimeError('espeak(1) failed')
+    if collect_future.result() is not None:
+        raise RuntimeError
+    fexec.shutdown()
+    if not queue.empty():
+        raise RuntimeError('espeak(1) did not process all words')
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sts=4 sw=4 et
