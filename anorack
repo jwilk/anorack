@@ -22,6 +22,7 @@
 
 import argparse
 import concurrent.futures.thread as futures
+import io
 import queue as queuemod
 import subprocess as ipc
 import sys
@@ -30,8 +31,14 @@ import lib
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument('--input-encoding', metavar='ENC', default='UTF-8:replace')
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'])
     options = ap.parse_args()
+    encoding = options.input_encoding
+    enc_errors = 'strict'
+    if ':' in encoding:
+        [encoding, enc_errors] = encoding.rsplit(':', 1)
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, 'UTF-8')
     espeak = ipc.Popen(['espeak', '-v', 'en', '-q', '-x', '-b', '1', '--stdin'], stdin=ipc.PIPE, stdout=ipc.PIPE)
     queue = queuemod.Queue()
     def collect():
@@ -62,9 +69,17 @@ def main():
     collect_future = fexec.submit(collect)
     for path in options.files:
         if path == '-':
-            file = sys.stdin
+            file = io.TextIOWrapper(
+                sys.stdin.buffer,
+                encoding=encoding,
+                errors=enc_errors,
+            )
         else:
-            file = open(path, 'rt')
+            file = open(
+                path, 'rt',
+                encoding=encoding,
+                errors=enc_errors,
+            )
         with file:
             for loc, art, word in lib.parse_file(file):
                 enqueue(loc, art, word)
