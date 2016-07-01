@@ -48,13 +48,13 @@ def parse_file(file):
         cline = carry + line
         carry = ''
         for match in find_articles(cline):
-            art, word, cart = match.groups()
+            art, word, eol_art = match.groups()
             if art is not None:
                 assert word is not None
                 yield (file, i), art, word
             else:
-                assert cart is not None
-                carry = cart + ' '
+                assert eol_art is not None
+                carry = eol_art + ' '
 
 def open_file(path, *, encoding, errors):
     '''
