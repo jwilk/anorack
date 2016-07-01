@@ -80,7 +80,9 @@ def main():
                 print('{loc[0].name}:{loc[1]}: {art} {word} -> {cart} {word}'.format(loc=loc, art=art, cart=correct_art, word=word))
     def enqueue(loc, art, word):
         queue.put((loc, art, word))
-        espeak.stdin.write(word.title().encode('UTF-8') + b'.\n')
+        if word.islower():
+            word = word.title()
+        espeak.stdin.write(word.encode('UTF-8') + b'.\n')
     enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
     fexec = futures.ThreadPoolExecutor()
     collect_future = fexec.submit(collect)
