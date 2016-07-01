@@ -33,7 +33,10 @@ consonants = frozenset('DSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
 
 def choose_art(phon):
-    p = phon.strip(",'")[0]
+    try:
+        p = phon.strip(",'")[0]
+    except IndexError:
+        return NotImplemented
     if p in consonants:
         return 'a'
     elif p in vowels:
