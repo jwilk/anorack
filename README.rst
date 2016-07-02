@@ -1,3 +1,6 @@
+Example
+=======
+
 .. code:: console
 
    $ cat test
@@ -9,5 +12,15 @@
    test:1: a Ubuntu -> an Ubuntu /u:b'u:ntu:/
    test:2: a 8 -> an 8 /'eIt/
    test:3: an username -> a username /j'u:z3n,eIm/
+
+Prerequisites
+=============
+
+* Python ≥ 3.2
+
+* eSpeak_
+
+.. _eSpeak:
+   http://espeak.sourceforge.net/
 
 .. vim:ts=3 sts=3 sw=3 et 
