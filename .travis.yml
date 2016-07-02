@@ -19,7 +19,7 @@ cache:
 install:
 - pip install pyflakes
 script:
-- python3 -m nose
+- python3 -m nose --verbose
 - ./private/run-pyflakes
 
 # vim:ts=2 sts=2 sw=2 et
