@@ -41,7 +41,7 @@ def main():
     if ':' in encoding:
         [encoding, enc_errors] = encoding.rsplit(':', 1)
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, 'UTF-8')
-    fexec = futures.ThreadPoolExecutor()
+    fexec = futures.ThreadPoolExecutor(max_workers=99)
     queue = queuemod.Queue()
     def collect():
         for phon in espeak.stdout:
