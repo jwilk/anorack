@@ -25,7 +25,7 @@ from nose.tools import (
     assert_is,
 )
 
-import lib as M
+import lib.misc as M
 
 def t(s, exp):
     file = io.StringIO(s)

@@ -24,7 +24,7 @@ from nose.tools import (
     assert_equal,
 )
 
-import lib as M
+import lib.misc as M
 
 def t(path):
     encoding = 'ISO-8859-2'

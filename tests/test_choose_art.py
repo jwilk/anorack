@@ -22,7 +22,7 @@ from nose.tools import (
     assert_equal,
 )
 
-import lib as M
+import lib.misc as M
 
 def test_choose_a():
     art = M.choose_art("sp'am")

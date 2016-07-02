@@ -28,7 +28,7 @@ from nose.tools import (
     assert_equal,
 )
 
-import lib as M
+import lib.misc as M
 
 def test_warn():
     stderr = io.StringIO()
