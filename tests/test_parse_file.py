@@ -31,7 +31,7 @@ def t(s, exp):
     file = io.StringIO(s)
     result = list(M.parse_file(file))
     assert_equal(len(result), len(exp))
-    for (loc, art, word),  (xi, xart, xword) in zip(result, exp):
+    for (loc, art, word), (xi, xart, xword) in zip(result, exp):
         assert_equal(len(loc), 2)
         assert_is(loc[0], file)
         assert_equal(loc[1], xi)
