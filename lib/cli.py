@@ -30,6 +30,7 @@ import subprocess as ipc
 import sys
 
 import lib.misc as misc
+from lib.parser import parse_file
 
 def main():
     ap = argparse.ArgumentParser()
@@ -73,7 +74,7 @@ def main():
         for path in options.files:
             file = misc.open_file(path, encoding=encoding, errors=enc_errors)
             with file:
-                for loc, art, word in misc.parse_file(file):
+                for loc, art, word in parse_file(file):
                     enqueue(loc, art, word)
     finally:
         espeak.stdin.close()

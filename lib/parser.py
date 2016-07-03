@@ -19,52 +19,27 @@
 # SOFTWARE.
 
 '''
-miscellanea
+English parser
 '''
 
-import io
-import sys
+import re
 
+find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
 
-consonants = frozenset('DSTZbdfghjklmnprstvwz')
-vowels = frozenset('03@AEIOUVaeiou')
+def parse_file(file):
+    carry = ''
+    for i, line in enumerate(file, start=1):
+        cline = carry + line
+        carry = ''
+        for match in find_articles(cline):
+            art, word, eol_art = match.groups()
+            if art is not None:
+                assert word is not None
+                yield (file, i), art, word
+            else:
+                assert eol_art is not None
+                carry = eol_art + ' '
 
-def choose_art(phon):
-    try:
-        p = phon.strip(",'")[0]
-    except IndexError:
-        return NotImplemented
-    if p in consonants:
-        return 'a'
-    elif p in vowels:
-        return 'an'
-    else:
-        return NotImplemented
-
-def warn(msg):
-    print('anorack: warning: ' + msg, file=sys.stderr)
-
-def open_file(path, *, encoding, errors):
-    '''
-    open() with special case for “-”
-    '''
-    if path == '-':
-        return io.TextIOWrapper(
-            sys.stdin.buffer,
-            encoding=encoding,
-            errors=errors,
-        )
-    else:
-        return open(
-            path, 'rt',
-            encoding=encoding,
-            errors=errors,
-        )
-
-__all__ = [
-    'choose_art',
-    'open_file',
-    'warn',
-]
+__all__ = ['parse_file']
 
 # vim:ts=4 sts=4 sw=4 et
