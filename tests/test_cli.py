@@ -20,13 +20,25 @@
 
 import contextlib
 import io
+import os
 import sys
+import tempfile
 
 from nose.tools import (
     assert_equal,
 )
 
 import lib.cli as M
+
+@contextlib.contextmanager
+def tmpcwd():
+    with tempfile.TemporaryDirectory(prefix='anorack.tests.') as tmpdir:
+        orig_cwd = os.getcwd()
+        os.chdir(tmpdir)
+        try:
+            yield
+        finally:
+            os.chdir(orig_cwd)
 
 @contextlib.contextmanager
 def mock_sys(argv, stdin, stdout, stderr):
@@ -45,7 +57,10 @@ def TextIO(s=None, *, name):
 def t(*, stdin=None, files=None, stdout, stderr=''):
     mock_argv = ['anorack']
     if files is not None:
-        raise NotImplementedError
+        for (name, content) in files:
+            with open(name, 'wt', encoding='UTF-8') as file:
+                file.write(content)
+            mock_argv += [name]
     if stdin is not None:
         if isinstance(stdin, list):
             stdin = ''.join(line + '\n' for line in stdin)
@@ -79,6 +94,19 @@ def test_stdin():
         stdout=[
             "<stdin>:2: a African -> an African /'afrIk@n/",
             "<stdin>:3: an European -> a European /j,U@r-@p'i@n/"
+        ]
+    )
+
+@tmpcwd()
+def test_files():
+    t(
+        files=[
+            ('holy', 'It could be carried by a African swallow!'),
+            ('grail', 'Oh, yeah, an African swallow maybe, but not an European swallow.'),
+        ],
+        stdout=[
+            "holy:1: a African -> an African /'afrIk@n/",
+            "grail:1: an European -> a European /j,U@r-@p'i@n/"
         ]
     )
 
