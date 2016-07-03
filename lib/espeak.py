@@ -86,7 +86,7 @@ if _version >= '1.48.1':
             raise RuntimeError  # no coverage
         return res.decode('ASCII').strip()
 
-elif _version >= '1.47.08':
+elif _version >= '1.47.08':  # no coverage
 
     # void espeak_TextToPhonemes(const void *text, char *buffer, int size, int textmode, int phonememode)
     _text_to_phonemes = _shlib.espeak_TextToPhonemes
@@ -104,7 +104,7 @@ elif _version >= '1.47.08':
         _text_to_phonemes(s, buf, bufsize, 1, 0)
         return buf.value.decode('ASCII').strip()
 
-else:
+else:  # no coverage
 
     raise RuntimeError('eSpeak >= 1.47.08 is required')
 
