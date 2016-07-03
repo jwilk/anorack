@@ -78,12 +78,12 @@ def main():
     finally:
         espeak.stdin.close()
     if espeak.wait() != 0:
-        raise RuntimeError('espeak(1) failed')
+        raise RuntimeError('espeak(1) failed')  # no coverage
     if collect_future.result() is not None:
-        raise RuntimeError
+        raise RuntimeError  # no coverage
     fexec.shutdown()
     if not queue.empty():
-        raise RuntimeError('espeak(1) did not process all words')
+        raise RuntimeError('espeak(1) did not process all words')  # no coverage
 
 __all__ = ['main']
 
