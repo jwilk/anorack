@@ -23,7 +23,8 @@ interface to eSpeak
 '''
 
 import ctypes
-import distutils.version
+import distutils.version  # pylint: disable=no-name-in-module,import-error
+# https://github.com/PyCQA/pylint/issues/73
 
 _shlib = ctypes.CDLL('libespeak.so.1')
 
@@ -36,7 +37,7 @@ def info():
     dummy = ctypes.c_char_p(b'')
     res = _info(ctypes.byref(dummy))
     return res.decode('ASCII')
-_version = distutils.version.LooseVersion(info().split()[0])
+_version = distutils.version.LooseVersion(info().split()[0])  # pylint: disable=no-member
 del info
 
 # int espeak_Initialize(espeak_AUDIO_OUTPUT output, int buflength, const char *path, int options)
