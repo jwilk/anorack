@@ -29,7 +29,11 @@ import queue as queuemod
 import subprocess as ipc
 import sys
 
-import lib.misc as misc
+from lib.misc import (
+    choose_art,
+    warn,
+    open_file,
+)
 from lib.parser import parse_file
 
 def main():
@@ -51,9 +55,9 @@ def main():
             (loc, art, word) = queue.get()
             if art is None:
                 continue
-            correct_art = misc.choose_art(phon)
+            correct_art = choose_art(phon)
             if correct_art is NotImplemented:
-                misc.warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
+                warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
             elif art.lower() != correct_art:
                 print('{loc[0].name}:{loc[1]}: {art} {word} -> {cart} {word} /{phon}/'.format(
                     loc=loc,
@@ -72,7 +76,7 @@ def main():
         collect_future = fexec.submit(collect)
         enqueue(None, None, 'MOO')  # dummy word to ensure output is non-empty
         for path in options.files:
-            file = misc.open_file(path, encoding=encoding, errors=enc_errors)
+            file = open_file(path, encoding=encoding, errors=enc_errors)
             with file:
                 for loc, art, word in parse_file(file):
                     enqueue(loc, art, word)
