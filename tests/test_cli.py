@@ -62,8 +62,6 @@ def t(*, stdin=None, files=None, stdout, stderr=''):
                 file.write(content)
             mock_argv += [name]
     if stdin is not None:
-        if isinstance(stdin, list):
-            stdin = ''.join(line + '\n' for line in stdin)
         if isinstance(stdin, str):
             stdin = stdin.encode('UTF-8')
         mock_stdin = TextIO(stdin, name=sys.__stdin__.name)
@@ -79,35 +77,33 @@ def t(*, stdin=None, files=None, stdout, stderr=''):
             yield s.decode('UTF-8')
     with mock_sys(mock_argv, mock_stdin, mock_stdout, mock_stderr):
         (actual_stdout, actual_stderr) = run_main()
-    if isinstance(stdout, list):
-        stdout = ''.join(line + '\n' for line in stdout)
     assert_equal(stdout, actual_stdout)
     assert_equal(stderr, actual_stderr)
 
 def test_stdin():
     t(
-        stdin=[
-            'It could be carried by an African swallow!',
-            'Oh, yeah, a African swallow maybe, but not an',
-            'European swallow.'
-        ],
-        stdout=[
-            "<stdin>:2: a African -> an African /'afrIk@n/",
-            "<stdin>:3: an European -> a European /j,U@r-@p'i@n/"
-        ]
+        stdin=(
+            'It could be carried by an African swallow!\n'
+            'Oh, yeah, a African swallow maybe, but not an\n'
+            'European swallow.\n'
+        ),
+        stdout=(
+            "<stdin>:2: a African -> an African /'afrIk@n/\n"
+            "<stdin>:3: an European -> a European /j,U@r-@p'i@n/\n"
+        )
     )
 
 @tmpcwd()
 def test_files():
     t(
-        files=[
+        files=(
             ('holy', 'It could be carried by a African swallow!'),
             ('grail', 'Oh, yeah, an African swallow maybe, but not an European swallow.'),
-        ],
-        stdout=[
-            "holy:1: a African -> an African /'afrIk@n/",
-            "grail:1: an European -> a European /j,U@r-@p'i@n/"
-        ]
+        ),
+        stdout=(
+            "holy:1: a African -> an African /'afrIk@n/\n"
+            "grail:1: an European -> a European /j,U@r-@p'i@n/\n"
+        )
     )
 
 # vim:ts=4 sts=4 sw=4 et
