@@ -9,6 +9,8 @@ python:
 matrix:
   allow_failures:
   - python: pypy3
+sudo: required
+dist: trusty
 addons:
   apt:
     packages:
