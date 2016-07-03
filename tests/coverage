@@ -3,8 +3,9 @@ Generated automatically by private/update-coverage. Do not edit.
 Name            Stmts   Miss Branch BrPart  Cover   Missing
 -----------------------------------------------------------
 lib.py              0      0      0      0   100%
-lib/cli.py         53      2     16      3    93%   60, 72, 46->48, 59->60, 71->72
+lib/cli.py         34      1     10      2    93%   44, 43->44, 61->63
+lib/espeak.py      51     11      4      1    75%   89-109, 72->89
 lib/misc.py        22      0      6      0   100%
 lib/parser.py      22      0      6      0   100%
 -----------------------------------------------------------
-TOTAL              97      2     28      3    96%
+TOTAL             129     12     26      3    89%
