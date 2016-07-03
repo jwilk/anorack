@@ -18,7 +18,7 @@ Prerequisites
 
 * Python ≥ 3.2
 
-* eSpeak_
+* eSpeak_ ≥ 1.47.08
 
 .. _eSpeak:
    http://espeak.sourceforge.net/

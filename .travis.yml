@@ -12,7 +12,7 @@ matrix:
 addons:
   apt:
     packages:
-    - espeak
+    - libespeak1
 cache:
   directories:
   - $HOME/.cache/pip
