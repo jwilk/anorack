@@ -19,10 +19,10 @@ cache:
 install:
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - pip install pyflakes
-- pip install pylint
+- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pylint
 script:
 - python3 -m nose --verbose
 - ./private/run-pyflakes
-- ./private/run-pylint
+- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || ./private/run-pylint
 
 # vim:ts=2 sts=2 sw=2 et
