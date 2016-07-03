@@ -24,7 +24,7 @@ install:
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pylint
 script:
 - python3 -m nose --verbose
-- ./private/run-pyflakes
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || ./private/run-pylint
+- private/run-pyflakes
+- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/run-pylint
 
 # vim:ts=2 sts=2 sw=2 et
