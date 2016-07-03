@@ -85,7 +85,4 @@ def main():
     if not queue.empty():
         raise RuntimeError('espeak(1) did not process all words')
 
-if __name__ == '__main__':
-    main()
-
 # vim:ts=4 sts=4 sw=4 et
