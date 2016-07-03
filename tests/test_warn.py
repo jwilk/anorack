@@ -22,7 +22,7 @@ import io
 try:
     import unittest.mock as mock
 except ImportError:
-    import mock
+    import mock  # pylint: disable=import-error
 
 from nose.tools import (
     assert_equal,
