@@ -23,6 +23,7 @@ the command-line interface
 '''
 
 import argparse
+import functools
 import io
 import sys
 
@@ -34,8 +35,10 @@ from lib.misc import (
 )
 from lib.parser import parse_file
 
+text_to_phonemes = functools.lru_cache(maxsize=9999)(espeak.text_to_phonemes)
+
 def check_word(loc, art, word):
-    phon = espeak.text_to_phonemes(word)
+    phon = text_to_phonemes(word)
     correct_art = choose_art(phon)
     if correct_art is NotImplemented:
         warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
