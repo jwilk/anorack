@@ -24,6 +24,15 @@ English parser
 
 import re
 
+class Location(object):
+
+    def __init__(self, file, lineno):
+        self.file = file
+        self.lineno = lineno
+
+    def __str__(self):
+        return '{path}:{n}'.format(path=self.file.name, n=self.lineno)
+
 find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
 
 def parse_file(file):
@@ -35,7 +44,7 @@ def parse_file(file):
             art, word, eol_art = match.groups()
             if art is not None:
                 assert word is not None
-                yield (file, i), art, word
+                yield (Location(file, i), art, word)
             else:
                 assert eol_art is not None
                 carry = eol_art + ' '

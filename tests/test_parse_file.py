@@ -23,6 +23,7 @@ import io
 from nose.tools import (
     assert_equal,
     assert_is,
+    assert_is_instance,
 )
 
 import lib.parser as M
@@ -32,9 +33,9 @@ def t(s, exp):
     result = list(M.parse_file(file))
     assert_equal(len(result), len(exp))
     for (loc, art, word), (xi, xart, xword) in zip(result, exp):
-        assert_equal(len(loc), 2)
-        assert_is(loc[0], file)
-        assert_equal(loc[1], xi)
+        assert_is_instance(loc, M.Location)
+        assert_is(loc.file, file)
+        assert_equal(loc.lineno, xi)
         assert_equal(xart, art)
         assert_equal(xword, word)
 

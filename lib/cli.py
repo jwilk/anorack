@@ -59,7 +59,7 @@ def main():
             if correct_art is NotImplemented:
                 warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
             elif art.lower() != correct_art:
-                print('{loc[0].name}:{loc[1]}: {art} {word} -> {cart} {word} /{phon}/'.format(
+                print('{loc}: {art} {word} -> {cart} {word} /{phon}/'.format(
                     loc=loc,
                     art=art,
                     cart=correct_art,

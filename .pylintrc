@@ -2,6 +2,7 @@
 disable =
     invalid-name,
     locally-disabled,
+    too-few-public-methods,
 
 [REPORTS]
 reports = no
