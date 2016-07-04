@@ -63,7 +63,7 @@ _set_voice_by_name.restype = ctypes.c_int
 
 def set_voice_by_name(s):
     '''
-    use this voice for syntesis
+    use this voice for synthesis
     '''
     s = s.encode('ASCII')
     rc = _set_voice_by_name(s)
