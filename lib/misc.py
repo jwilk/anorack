@@ -29,6 +29,10 @@ consonants = frozenset('DSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
 
 def choose_art(phon):
+    '''
+    choose correct article for the phonemes:
+    return “a” or “an” or NotImplemented
+    '''
     try:
         p = phon.strip(",'")[0]
     except IndexError:
@@ -41,6 +45,9 @@ def choose_art(phon):
         return NotImplemented
 
 def warn(msg):
+    '''
+    print warning message
+    '''
     print('anorack: warning: ' + msg, file=sys.stderr)
 
 def open_file(path, *, encoding, errors):
