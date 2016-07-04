@@ -82,11 +82,9 @@ def __run_main(argv, stdin):
     del mock_stdin, mock_stdout, mock_stderr
 
 def _run_main(argv, stdin):
-    (orig_argv, orig_stdin, orig_stdout, orig_stderr) = (sys.argv, sys.stdin, sys.stdout, sys.stderr)
-    try:
+    # abuse mock to save&restore sys.argv, sys.stdin, etc.:
+    with mock.patch.multiple(sys, argv=None, stdin=None, stdout=None, stderr=None):
         return tuple(__run_main(argv, stdin))
-    finally:
-        (sys.argv, sys.stdin, sys.stdout, sys.stderr) = (orig_argv, orig_stdin, orig_stdout, orig_stderr)
 
 run_main = isolation(_run_main)
 
