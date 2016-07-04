@@ -35,8 +35,21 @@ from lib.misc import (
     open_file,
 )
 from lib.parser import parse_file
+from lib.version import __version__
 
 text_to_phonemes = functools.lru_cache(maxsize=9999)(espeak.text_to_phonemes)
+
+class VersionAction(argparse._VersionAction):  # pylint: disable=protected-access
+    '''
+    argparse --version action
+    '''
+    def __call__(self, parser, namespace, values, option_string=None):
+        lines = ['{prog} {0}'.format(__version__, prog=parser.prog)]
+        lines += ['+ Python {0}.{1}.{2}'.format(*sys.version_info)]
+        lines += ['+ eSpeak {0}'.format(espeak.version)]
+        for line in lines:
+            print(line)
+        parser.exit()
 
 def check_word(loc, art, word):
     '''
@@ -60,6 +73,7 @@ def main():
     run the program
     '''
     ap = argparse.ArgumentParser(description='"a" vs "an" checker')
+    ap.add_argument('--version', action=VersionAction)
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
     options = ap.parse_args()

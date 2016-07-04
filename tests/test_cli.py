@@ -33,6 +33,7 @@ except ImportError:
 
 from nose.tools import (
     assert_equal,
+    assert_not_equal,
 )
 
 def isolation(f):
@@ -74,7 +75,11 @@ def __run_main(argv, stdin):
     sys.stdout = mock_stdout = TextIO(name=sys.__stdout__.name)
     sys.stderr = mock_stderr = TextIO(name=sys.__stderr__.name)
     import lib.cli
-    lib.cli.main()
+    try:
+        lib.cli.main()
+    except SystemExit as exc:
+        if exc.code != 0:
+            raise
     for fp in (sys.stdout, sys.stderr):
         fp.flush()
         s = fp.buffer.getvalue()  # pylint: disable=no-member
@@ -134,5 +139,11 @@ def test_warning():
             stdout='',
             stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n"
         )
+
+def test_version():
+    argv = ['anorack', '--version']
+    (actual_stdout, actual_stderr) = run_main(argv, None)
+    assert_not_equal('', actual_stdout)
+    assert_equal('', actual_stderr)
 
 # vim:ts=4 sts=4 sw=4 et
