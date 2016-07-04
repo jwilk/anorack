@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
+try:
+    import unittest.mock as mock
+except ImportError:
+    import mock  # pylint: disable=import-error
 
 from nose.tools import (
     assert_equal,
@@ -29,12 +32,8 @@ import lib.enc as M
 def t(src, dst):
     class mock_stdout:
         encoding = src
-    orig_stdout = sys.stdout
-    try:
-        sys.stdout = mock_stdout
+    with mock.patch('sys.stdout', mock_stdout):
         encoding = M.get_encoding()
-    finally:
-        sys.stdout = orig_stdout
     assert_equal(encoding, dst)
 
 def test_ascii():
