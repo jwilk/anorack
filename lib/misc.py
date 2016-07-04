@@ -25,7 +25,6 @@ miscellanea
 import io
 import sys
 
-
 consonants = frozenset('DSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
 
