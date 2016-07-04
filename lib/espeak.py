@@ -40,7 +40,7 @@ def info():
     dummy = ctypes.c_char_p(b'')
     res = _info(ctypes.byref(dummy))
     return res.decode('ASCII')
-_version = distutils.version.LooseVersion(info().split()[0])  # pylint: disable=no-member
+version = distutils.version.LooseVersion(info().split()[0])  # pylint: disable=no-member
 del info
 
 # int espeak_Initialize(espeak_AUDIO_OUTPUT output, int buflength, const char *path, int options)
@@ -78,7 +78,7 @@ def set_voice_by_name(s):
             msg = 'unknown error {}'.format(rc)
         raise RuntimeError('espeak_SetVoiceByName(): ' + msg)
 
-if _version >= '1.48.1':
+if version >= '1.48.1':
 
     # const char *espeak_TextToPhonemes(const void **textptr, int textmode, int phonememode)
     _text_to_phonemes = _shlib.espeak_TextToPhonemes
@@ -98,7 +98,7 @@ if _version >= '1.48.1':
             raise RuntimeError  # no coverage
         return res.decode('ASCII').strip()
 
-elif _version >= '1.47.08':  # no coverage
+elif version >= '1.47.08':  # no coverage
 
     # void espeak_TextToPhonemes(const void *text, char *buffer, int size, int textmode, int phonememode)
     _text_to_phonemes = _shlib.espeak_TextToPhonemes
@@ -127,6 +127,7 @@ __all__ = [
     'init',
     'set_voice_by_name',
     'text_to_phonemes',
+    'version',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
