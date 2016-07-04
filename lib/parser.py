@@ -25,7 +25,9 @@ English parser
 import re
 
 class Location(object):
-
+    '''
+    location in a file
+    '''
     def __init__(self, file, lineno):
         self.file = file
         self.lineno = lineno
@@ -36,6 +38,10 @@ class Location(object):
 find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
 
 def parse_file(file):
+    '''
+    parse the file:
+    return sequence of (<location>, <article>, <word>) tuples
+    '''
     carry = ''
     for i, line in enumerate(file, start=1):
         cline = carry + line
