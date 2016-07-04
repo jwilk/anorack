@@ -70,8 +70,8 @@ def __run_main(argv, stdin):
     sys.stderr = mock_stderr = TextIO(name=sys.__stderr__.name)
     import lib.cli
     lib.cli.main()
-    sys.stdout.flush()
     for fp in (sys.stdout, sys.stderr):
+        fp.flush()
         s = fp.buffer.getvalue()  # pylint: disable=no-member
         yield s.decode('UTF-8')
     del mock_stdin, mock_stdout, mock_stderr
