@@ -26,6 +26,11 @@ import os
 import sys
 import tempfile
 
+try:
+    import unittest.mock as mock
+except ImportError:
+    import mock  # pylint: disable=import-error
+
 from nose.tools import (
     assert_equal,
 )
@@ -121,5 +126,15 @@ def test_files():
             "grail:1: an European -> a European /j,U@r-@p'i@n/\n"
         )
     )
+
+def test_warning():
+    def dummy_choose_art(phon):  # pylint: disable=unused-argument
+        return NotImplemented
+    with mock.patch('lib.cli.choose_art', dummy_choose_art):
+        t(
+            stdin='A scratch?!',
+            stdout='',
+            stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n"
+        )
 
 # vim:ts=4 sts=4 sw=4 et
