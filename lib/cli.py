@@ -39,6 +39,9 @@ from lib.parser import parse_file
 text_to_phonemes = functools.lru_cache(maxsize=9999)(espeak.text_to_phonemes)
 
 def check_word(loc, art, word):
+    '''
+    check if the word has correct article
+    '''
     phon = text_to_phonemes(word)
     correct_art = choose_art(phon)
     if correct_art is NotImplemented:
@@ -53,6 +56,9 @@ def check_word(loc, art, word):
         ))
 
 def main():
+    '''
+    run the program
+    '''
     ap = argparse.ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
