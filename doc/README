@@ -1,5 +1,9 @@
-Example
-=======
+Overview
+========
+
+**anorack** is a specialized spell-checker
+that finds incorrect indefinite articles
+(“a” instead of “an”, or other way round):
 
 .. code:: console
 
