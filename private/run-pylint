@@ -23,7 +23,6 @@
 pylint=$(which pylint) || { echo pylint not found >&2; exit 1; }
 ! python3 "$pylint" -j0 lib tests $(grep -l -r '^#!.*python' .) \
 | grep '^\w:' \
-| grep -v ': missing-docstring \[\w' \
 | grep -v -P '^\w: (?!lib/).*: missing-docstring ' \
 | grep '.'
 
