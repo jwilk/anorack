@@ -18,7 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import concurrent.futures
 import contextlib
+import functools
 import io
 import os
 import sys
@@ -28,7 +30,18 @@ from nose.tools import (
     assert_equal,
 )
 
-import lib.cli as M
+def isolation(f):
+    if 'coverage' in sys.modules:
+        # Process isolation would break coverage measurements.
+        # Oh well. FIXME.
+        return f
+    else:
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                ftr = executor.submit(f, *args, **kwargs)
+                return ftr.result()
+    return wrapper
 
 @contextlib.contextmanager
 def tmpcwd():
@@ -40,43 +53,46 @@ def tmpcwd():
         finally:
             os.chdir(orig_cwd)
 
-@contextlib.contextmanager
-def mock_sys(argv, stdin, stdout, stderr):
-    (orig_argv, orig_stdin, orig_stdout, orig_stderr) = (sys.argv, sys.stdin, sys.stdout, sys.stderr)
-    try:
-        (sys.argv, sys.stdin, sys.stdout, sys.stderr) = (argv, stdin, stdout, stderr)
-        yield
-    finally:
-        (sys.argv, sys.stdin, sys.stdout, sys.stderr) = (orig_argv, orig_stdin, orig_stdout, orig_stderr)
-
 def TextIO(s=None, *, name):
     fp = io.BytesIO(s)
     fp.name = name
     return io.TextIOWrapper(fp, encoding='UTF-8')
 
+def __run_main(argv, stdin):
+    sys.argv = argv
+    if stdin is not None:
+        if isinstance(stdin, str):
+            stdin = stdin.encode('UTF-8')
+        sys.stdin = mock_stdin = TextIO(stdin, name=sys.__stdin__.name)
+    else:
+        mock_stdin = None
+    sys.stdout = mock_stdout = TextIO(name=sys.__stdout__.name)
+    sys.stderr = mock_stderr = TextIO(name=sys.__stderr__.name)
+    import lib.cli
+    lib.cli.main()
+    sys.stdout.flush()
+    for fp in (sys.stdout, sys.stderr):
+        s = fp.buffer.getvalue()  # pylint: disable=no-member
+        yield s.decode('UTF-8')
+    del mock_stdin, mock_stdout, mock_stderr
+
+def _run_main(argv, stdin):
+    (orig_argv, orig_stdin, orig_stdout, orig_stderr) = (sys.argv, sys.stdin, sys.stdout, sys.stderr)
+    try:
+        return tuple(__run_main(argv, stdin))
+    finally:
+        (sys.argv, sys.stdin, sys.stdout, sys.stderr) = (orig_argv, orig_stdin, orig_stdout, orig_stderr)
+
+run_main = isolation(_run_main)
+
 def t(*, stdin=None, files=None, stdout, stderr=''):
-    mock_argv = ['anorack']
+    argv = ['anorack']
     if files is not None:
         for (name, content) in files:
             with open(name, 'wt', encoding='UTF-8') as file:
                 file.write(content)
-            mock_argv += [name]
-    if stdin is not None:
-        if isinstance(stdin, str):
-            stdin = stdin.encode('UTF-8')
-        mock_stdin = TextIO(stdin, name=sys.__stdin__.name)
-    else:
-        mock_stdin = sys.stdin
-    mock_stdout = TextIO(name=sys.__stdout__.name)
-    mock_stderr = TextIO(name=sys.__stderr__.name)
-    def run_main():
-        M.main()
-        sys.stdout.flush()
-        for fp in (sys.stdout, sys.stderr):
-            s = fp.buffer.getvalue()  # pylint: disable=no-member
-            yield s.decode('UTF-8')
-    with mock_sys(mock_argv, mock_stdin, mock_stdout, mock_stderr):
-        (actual_stdout, actual_stderr) = run_main()
+            argv += [name]
+    (actual_stdout, actual_stderr) = run_main(argv, stdin)
     assert_equal(stdout, actual_stdout)
     assert_equal(stderr, actual_stderr)
 
