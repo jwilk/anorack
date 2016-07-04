@@ -1,5 +1,6 @@
 [MESSAGES CONTROL]
 disable =
+    bad-continuation,
     invalid-name,
     locally-disabled,
     too-few-public-methods,
