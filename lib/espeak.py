@@ -34,6 +34,9 @@ _info.argtypes = [ctypes.POINTER(ctypes.c_char_p)]
 _info.restype = ctypes.c_char_p
 
 def info():
+    '''
+    return eSpeak version information
+    '''
     dummy = ctypes.c_char_p(b'')
     res = _info(ctypes.byref(dummy))
     return res.decode('ASCII')
@@ -46,6 +49,9 @@ _initialize.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_char_p, ctypes.c_in
 _initialize.restype = ctypes.c_int
 
 def init():
+    '''
+    initialize eSpeak
+    '''
     rc = _initialize(0, 0, None, 0)
     if rc <= 0:
         raise RuntimeError('espeak_Initialize(): internal error')  # no coverage
@@ -56,6 +62,9 @@ _set_voice_by_name.argtypes = [ctypes.c_char_p]
 _set_voice_by_name.restype = ctypes.c_int
 
 def set_voice_by_name(s):
+    '''
+    use this voice for syntesis
+    '''
     s = s.encode('ASCII')
     rc = _set_voice_by_name(s)
     if rc == 0:
@@ -77,6 +86,9 @@ if _version >= '1.48.1':
     _text_to_phonemes.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_int, ctypes.c_int]
 
     def text_to_phonemes(s):
+        '''
+        translate text to phonemes
+        '''
         s = s.encode('UTF-8')
         z = ctypes.c_char_p(s)
         zptr = ctypes.pointer(z)
@@ -98,6 +110,9 @@ elif _version >= '1.47.08':  # no coverage
     ]
 
     def text_to_phonemes(s):
+        '''
+        translate text to phonemes
+        '''
         s = s.encode('UTF-8')
         bufsize = 250
         buf = ctypes.create_string_buffer(bufsize)
