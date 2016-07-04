@@ -1,0 +1,26 @@
+Example
+=======
+
+.. code:: console
+
+   $ cat test
+   a Ubuntu user
+   a 8-byte word
+   an username
+
+   $ anorack test
+   test:1: a Ubuntu -> an Ubuntu /u:b'u:ntu:/
+   test:2: a 8 -> an 8 /'eIt/
+   test:3: an username -> a username /j'u:z3n,eIm/
+
+Prerequisites
+=============
+
+* Python ≥ 3.2
+
+* eSpeak_ ≥ 1.47.08
+
+.. _eSpeak:
+   http://espeak.sourceforge.net/
+
+.. vim:ft=rst ts=3 sts=3 sw=3 et
