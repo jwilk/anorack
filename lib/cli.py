@@ -28,6 +28,7 @@ import io
 import sys
 
 from lib import espeak
+from lib.enc import get_encoding
 from lib.misc import (
     choose_art,
     warn,
@@ -53,20 +54,15 @@ def check_word(loc, art, word):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--input-encoding', metavar='ENC', default='UTF-8:replace',
-        help='assume input encoding ENC')
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
     options = ap.parse_args()
-    encoding = options.input_encoding
-    enc_errors = 'strict'
-    if ':' in encoding:
-        [encoding, enc_errors] = encoding.rsplit(':', 1)
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, 'UTF-8')
+    encoding = get_encoding()
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding)
     espeak.init()
     espeak.set_voice_by_name('en')
     for path in options.files:
-        file = open_file(path, encoding=encoding, errors=enc_errors)
+        file = open_file(path, encoding=encoding, errors='replace')
         with file:
             for loc, art, word in parse_file(file):
                 check_word(loc, art, word)
