@@ -53,8 +53,10 @@ def check_word(loc, art, word):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--input-encoding', metavar='ENC', default='UTF-8:replace')
-    ap.add_argument('files', metavar='FILE', nargs='*', default=['-'])
+    ap.add_argument('--input-encoding', metavar='ENC', default='UTF-8:replace',
+        help='assume input encoding ENC')
+    ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
+        help='file to check (default: stdin)')
     options = ap.parse_args()
     encoding = options.input_encoding
     enc_errors = 'strict'
