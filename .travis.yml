@@ -22,9 +22,11 @@ install:
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - pip install pyflakes
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pylint
+- pip install docutils
 script:
 - python3 -m nose --verbose
 - private/run-pyflakes
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/run-pylint
+- find -name '*.rst' | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
 
 # vim:ts=2 sts=2 sw=2 et
