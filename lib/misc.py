@@ -25,7 +25,7 @@ miscellanea
 import io
 import sys
 
-consonants = frozenset('DSTZbdfghjklmnprstvwz')
+consonants = frozenset('DNSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
 
 def choose_art(phon):
