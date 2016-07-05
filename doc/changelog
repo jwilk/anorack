@@ -1,8 +1,8 @@
 anorack (0.1.1) UNRELEASED; urgency=low
 
-  * 
+  * Add N (ŋ) to the consonants set.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 04 Jul 2016 22:21:39 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 06 Jul 2016 01:10:14 +0200
 
 anorack (0.1) unstable; urgency=low
 
