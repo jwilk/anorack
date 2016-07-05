@@ -44,11 +44,9 @@ class VersionAction(argparse._VersionAction):  # pylint: disable=protected-acces
     argparse --version action
     '''
     def __call__(self, parser, namespace, values, option_string=None):
-        lines = ['{prog} {0}'.format(__version__, prog=parser.prog)]
-        lines += ['+ Python {0}.{1}.{2}'.format(*sys.version_info)]
-        lines += ['+ eSpeak {0}'.format(espeak.version)]
-        for line in lines:
-            print(line)
+        print('{prog} {0}'.format(__version__, prog=parser.prog))
+        print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
+        print('+ eSpeak {0}'.format(espeak.version))
         parser.exit()
 
 def check_word(loc, art, word):
