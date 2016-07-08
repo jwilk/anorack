@@ -50,4 +50,13 @@ def test_wrapped():
         (2, 'an', 'autonomous'),
     ])
 
+def test_quotes():
+    t(
+        "a 'scratch'\n"
+        'a ‘scratch’\n'
+        'a "scratch"\n'
+        'a “scratch”\n',
+        [(i, 'a', 'scratch') for i in range(1, 5) ]
+    )
+
 # vim:ts=4 sts=4 sw=4 et

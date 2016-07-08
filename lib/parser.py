@@ -35,7 +35,10 @@ class Location(object):
     def __str__(self):
         return '{path}:{n}'.format(path=self.file.name, n=self.lineno)
 
-find_articles = re.compile(r'\b(an?)\s+([^\W_]+)\b|\b(an?)\s*$', re.IGNORECASE).finditer
+find_articles = re.compile(
+    r'''\b(an?)\s+(?:['‘"“]\s*)?([^\W_]+)\b|\b(an?)\s*$''',
+    re.IGNORECASE
+).finditer
 
 def parse_file(file):
     '''
