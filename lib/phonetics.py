@@ -23,11 +23,13 @@ English phonetics
 '''
 
 import functools
+import os
 
 consonants = frozenset('DNSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
 
 espeak = None
+overrides = {}
 
 def init():
     '''
@@ -37,13 +39,24 @@ def init():
     from lib import espeak  # pylint: disable=redefined-outer-name
     espeak.init()
     espeak.set_voice_by_name('en')
+    here = os.path.dirname(__file__)
+    path = '{here}/../data/overrides'.format(here=here)
+    with open(path, 'rt', encoding='UTF-8') as file:
+        for line in file:
+            line = line.strip()
+            (word, phon) = line.split('\t')
+            word = word.lower()
+            overrides[word] = phon
 
 @functools.lru_cache(maxsize=9999)
 def text_to_phonemes(s):
     '''
     translate text to phonemes
     '''
-    return espeak.text_to_phonemes(s)
+    return (
+        overrides.get(s.lower()) or
+        espeak.text_to_phonemes(s)
+    )
 
 __all__ = [
     'consonants',
