@@ -2,8 +2,17 @@ anorack (0.1.1) UNRELEASED; urgency=low
 
   * Add N (ŋ) to the consonants set.
   * Allow quotation character between the article and the other word.
+  * Fix false positives for the following phrases:
+    + an EWMH
+    + a UCS
+    + a UDP
+    + a UTF
+    + a UTS
+    + a UUID
+    + a unary
+    + a usr
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 10 Jul 2016 11:55:30 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 11 Jul 2016 12:00:16 +0200
 
 anorack (0.1) unstable; urgency=low
 
