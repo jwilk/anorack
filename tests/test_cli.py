@@ -18,9 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import concurrent.futures
 import contextlib
-import functools
 import io
 import os
 import sys
@@ -36,18 +34,7 @@ from nose.tools import (
     assert_not_equal,
 )
 
-def isolation(f):
-    if 'coverage' in sys.modules:
-        # Process isolation would break coverage measurements.
-        # Oh well. FIXME.
-        return f
-    else:
-        @functools.wraps(f)
-        def wrapper(*args, **kwargs):
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                ftr = executor.submit(f, *args, **kwargs)
-                return ftr.result()
-    return wrapper
+from tests.tools import isolation
 
 @contextlib.contextmanager
 def tmpcwd():
