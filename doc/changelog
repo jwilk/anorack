@@ -1,4 +1,4 @@
-anorack (0.1.1) UNRELEASED; urgency=low
+anorack (0.1.1) unstable; urgency=low
 
   * Add the manual page.
   * Add N (ŋ) to the consonants set.
@@ -14,7 +14,7 @@ anorack (0.1.1) UNRELEASED; urgency=low
     + a usr
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 11 Jul 2016 20:58:01 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 11 Jul 2016 21:42:44 +0200
 
 anorack (0.1) unstable; urgency=low
 
