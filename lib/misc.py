@@ -22,7 +22,6 @@
 miscellanea
 '''
 
-import io
 import os
 import sys
 
@@ -33,25 +32,7 @@ def warn(msg):
     prog = os.path.basename(sys.argv[0])
     print('{prog}: warning: {msg}'.format(prog=prog, msg=msg), file=sys.stderr)
 
-def open_file(path, *, encoding, errors):
-    '''
-    open() with special case for “-”
-    '''
-    if path == '-':
-        return io.TextIOWrapper(
-            sys.stdin.buffer,
-            encoding=encoding,
-            errors=errors,
-        )
-    else:
-        return open(
-            path, 'rt',
-            encoding=encoding,
-            errors=errors,
-        )
-
 __all__ = [
-    'open_file',
     'warn',
 ]
 

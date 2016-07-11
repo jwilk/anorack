@@ -27,7 +27,7 @@ from nose.tools import (
     assert_equal,
 )
 
-import lib.enc as M
+import lib.io as M
 
 def t(src, dst):
     class mock_stdout:

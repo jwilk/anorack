@@ -27,11 +27,11 @@ import io
 import sys
 
 from lib.articles import choose_art
-from lib.enc import get_encoding
-from lib.misc import (
-    warn,
+from lib.io import (
+    get_encoding,
     open_file,
 )
+from lib.misc import warn
 from lib.parser import parse_file
 from lib.phonetics import init as init_phonetics, text_to_phonemes
 from lib.version import __version__

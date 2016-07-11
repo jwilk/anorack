@@ -19,13 +19,14 @@
 # SOFTWARE.
 
 '''
-locale encoding
+I/O and encodings
 '''
 
 import codecs
+import io
 import sys
 
-def eq(e1, e2):
+def enc_eq(e1, e2):
     '''
     check if two encodings are equal
     '''
@@ -40,11 +41,31 @@ def get_encoding():
     upgrade ASCII to UTF-8
     '''
     locale_encoding = sys.stdout.encoding
-    if eq(locale_encoding, 'ASCII'):
+    if enc_eq(locale_encoding, 'ASCII'):
         return 'UTF-8'
     else:
         return locale_encoding
 
-__all__ = ['get_encoding']
+def open_file(path, *, encoding, errors):
+    '''
+    open() with special case for “-”
+    '''
+    if path == '-':
+        return io.TextIOWrapper(
+            sys.stdin.buffer,
+            encoding=encoding,
+            errors=errors,
+        )
+    else:
+        return open(
+            path, 'rt',
+            encoding=encoding,
+            errors=errors,
+        )
+
+__all__ = [
+    'get_encoding',
+    'open_file',
+]
 
 # vim:ts=4 sts=4 sw=4 et
