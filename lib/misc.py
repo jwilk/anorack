@@ -23,13 +23,15 @@ miscellanea
 '''
 
 import io
+import os
 import sys
 
 def warn(msg):
     '''
     print warning message
     '''
-    print('anorack: warning: ' + msg, file=sys.stderr)
+    prog = os.path.basename(sys.argv[0])
+    print('{prog}: warning: {msg}'.format(prog=prog, msg=msg), file=sys.stderr)
 
 def open_file(path, *, encoding, errors):
     '''

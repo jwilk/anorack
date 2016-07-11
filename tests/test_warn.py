@@ -33,7 +33,8 @@ import lib.misc as M
 def test_warn():
     stderr = io.StringIO()
     with mock.patch('sys.stderr', stderr):
-        M.warn('NOBODY expects the Spanish Inquisition!')
+        with mock.patch('sys.argv', ['/usr/bin/anorack']):
+            M.warn('NOBODY expects the Spanish Inquisition!')
     assert_equal(
         stderr.getvalue(),
         'anorack: warning: NOBODY expects the Spanish Inquisition!\n'
