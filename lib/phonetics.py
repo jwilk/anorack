@@ -27,6 +27,7 @@ import os
 
 consonants = frozenset('DNSTZbdfghjklmnprstvwz')
 vowels = frozenset('03@AEIOUVaeiou')
+accents = frozenset(",'")
 
 espeak = None
 overrides = {}
@@ -64,6 +65,7 @@ def text_to_phonemes(s):
 __all__ = [
     'consonants',
     'vowels',
+    'accents',
     'text_to_phonemes',
 ]
 

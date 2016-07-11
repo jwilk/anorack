@@ -24,13 +24,15 @@ English articles
 
 from lib import phonetics
 
+accents = ''.join(phonetics.accents)
+
 def choose_art(phonemes):
     '''
     choose correct article for the phonemes:
     return "a" or "an" or NotImplemented
     '''
     try:
-        p = phonemes.strip(",'")[0]
+        p = phonemes.strip(accents)[0]
     except IndexError:
         return NotImplemented
     if p in phonetics.consonants:
