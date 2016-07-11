@@ -27,7 +27,7 @@ from lib import phonetics
 def choose_art(phonemes):
     '''
     choose correct article for the phonemes:
-    return “a” or “an” or NotImplemented
+    return "a" or "an" or NotImplemented
     '''
     try:
         p = phonemes.strip(",'")[0]
