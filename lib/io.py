@@ -48,7 +48,7 @@ def get_encoding():
 
 def open_file(path, *, encoding, errors):
     '''
-    open() with special case for “-”
+    open() with special case for "-"
     '''
     if path == '-':
         return io.TextIOWrapper(
