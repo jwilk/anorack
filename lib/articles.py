@@ -42,4 +42,6 @@ def choose_art(phonemes):
     else:
         return NotImplemented
 
+__all__ = ['choose_art']
+
 # vim:ts=4 sts=4 sw=4 et
