@@ -55,10 +55,11 @@ def text_to_phonemes(s):
     '''
     translate text to phonemes
     '''
-    return (
-        overrides.get(s.lower()) or
-        espeak.text_to_phonemes(s)
-    )
+    s = overrides.get(s.lower(), s)
+    if s.startswith('[[') and s.endswith(']]'):
+        return s[2:-2]
+    else:
+        return espeak.text_to_phonemes(s)
 
 __all__ = [
     'consonants',
