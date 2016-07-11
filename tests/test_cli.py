@@ -127,6 +127,12 @@ def test_warning():
             stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n"
         )
 
+def test_changelog():
+    argv = ['anorack', 'doc/changelog']
+    (actual_stdout, actual_stderr) = run_main(argv, None)
+    assert_equal('', actual_stdout)
+    assert_equal('', actual_stderr)
+
 def test_version():
     argv = ['anorack', '--version']
     (actual_stdout, actual_stderr) = run_main(argv, None)
