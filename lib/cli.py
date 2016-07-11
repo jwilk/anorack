@@ -23,7 +23,10 @@ the command-line interface
 '''
 
 import argparse
+import concurrent.futures
+import functools
 import io
+import multiprocessing
 import sys
 
 from lib.articles import choose_art
@@ -73,23 +76,68 @@ def check_word(loc, art, word):
             phon=phon,
         ))
 
+def parse_jobs(s):
+    '''
+    --jobs=N parser
+    '''
+    if s == 'auto':
+        try:
+            return multiprocessing.cpu_count()
+        except NotImplementedError:
+            return 1
+    n = int(s)
+    if n <= 0:
+        raise ValueError
+    return n
+parse_jobs.__name__ = 'jobs'
+
 def main():
     '''
     run the program
     '''
     ap = argparse.ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
+    ap.add_argument('-j', '--jobs', type=parse_jobs, metavar='N', default=1, help='use N processes')
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
     options = ap.parse_args()
     encoding = get_encoding()
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding)
     init_phonetics()
-    for path in options.files:
-        file = open_file(path, encoding=encoding, errors='replace')
-        with file:
-            for loc, art, word in parse_file(file):
-                check_word(loc, art, word)
+    if len(options.files) <= 1 or options.jobs <= 1:
+        for path in options.files:
+            check_file(path, encoding=encoding)
+    else:
+        map_options = {}
+        if sys.version_info >= (3, 5):
+            chunksize = max(1, int(len(options.files) ** 0.5))  # wild guess
+            map_options.update(chunksize=chunksize)
+        executor = concurrent.futures.ProcessPoolExecutor(max_workers=options.jobs)
+        with executor:
+            check_file_opt = functools.partial(check_file_s, encoding=encoding)
+            for s in executor.map(check_file_opt, options.files, **map_options):
+                sys.stdout.write(s)
+
+def check_file(path, *, encoding):
+    '''
+    check one file
+    '''
+    file = open_file(path, encoding=encoding, errors='replace')
+    with file:
+        for loc, art, word in parse_file(file):
+            check_word(loc, art, word)
+
+def check_file_s(path, *, encoding):
+    '''
+    check_file() with captured stdout
+    '''
+    orig_stdout = sys.stdout
+    sys.stdout = io_stdout = io.StringIO()
+    try:
+        check_file(path, encoding=encoding)
+    finally:
+        sys.stdout = orig_stdout
+    return io_stdout.getvalue()
 
 __all__ = ['main']
 

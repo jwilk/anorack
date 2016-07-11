@@ -23,6 +23,11 @@ that finds incorrect indefinite articles
 Options
 -------
 
+-j n, --jobs n
+   Use *n* processes in parallel.
+   *n* can be a positive integer,
+   or ``auto`` to determine the number automatically.
+   The default is to use only a single process.
 -h, --help
    Show the help message and exit.
 --version
