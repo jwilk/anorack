@@ -6,9 +6,6 @@ python:
 - "3.5"
 - nightly
 - pypy3
-matrix:
-  allow_failures:
-  - python: pypy3
 sudo: required
 dist: trusty
 addons:
