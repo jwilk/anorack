@@ -19,38 +19,25 @@
 # SOFTWARE.
 
 '''
-miscellanea
+English articles
 '''
 
-import io
-import sys
+from lib import phonetics
 
-def warn(msg):
+def choose_art(phonemes):
     '''
-    print warning message
+    choose correct article for the phonemes:
+    return “a” or “an” or NotImplemented
     '''
-    print('anorack: warning: ' + msg, file=sys.stderr)
-
-def open_file(path, *, encoding, errors):
-    '''
-    open() with special case for “-”
-    '''
-    if path == '-':
-        return io.TextIOWrapper(
-            sys.stdin.buffer,
-            encoding=encoding,
-            errors=errors,
-        )
+    try:
+        p = phonemes.strip(",'")[0]
+    except IndexError:
+        return NotImplemented
+    if p in phonetics.consonants:
+        return 'a'
+    elif p in phonetics.vowels:
+        return 'an'
     else:
-        return open(
-            path, 'rt',
-            encoding=encoding,
-            errors=errors,
-        )
-
-__all__ = [
-    'open_file',
-    'warn',
-]
+        return NotImplemented
 
 # vim:ts=4 sts=4 sw=4 et

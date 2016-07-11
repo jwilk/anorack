@@ -19,38 +19,36 @@
 # SOFTWARE.
 
 '''
-miscellanea
+English phonetics
 '''
 
-import io
-import sys
+import functools
 
-def warn(msg):
-    '''
-    print warning message
-    '''
-    print('anorack: warning: ' + msg, file=sys.stderr)
+consonants = frozenset('DNSTZbdfghjklmnprstvwz')
+vowels = frozenset('03@AEIOUVaeiou')
 
-def open_file(path, *, encoding, errors):
+espeak = None
+
+def init():
     '''
-    open() with special case for “-”
+    initialize underlying speech engine
     '''
-    if path == '-':
-        return io.TextIOWrapper(
-            sys.stdin.buffer,
-            encoding=encoding,
-            errors=errors,
-        )
-    else:
-        return open(
-            path, 'rt',
-            encoding=encoding,
-            errors=errors,
-        )
+    global espeak
+    from lib import espeak  # pylint: disable=redefined-outer-name
+    espeak.init()
+    espeak.set_voice_by_name('en')
+
+@functools.lru_cache(maxsize=9999)
+def text_to_phonemes(s):
+    '''
+    translate text to phonemes
+    '''
+    return espeak.text_to_phonemes(s)
 
 __all__ = [
-    'open_file',
-    'warn',
+    'consonants',
+    'vowels',
+    'text_to_phonemes',
 ]
 
 # vim:ts=4 sts=4 sw=4 et

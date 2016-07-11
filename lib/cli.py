@@ -23,21 +23,18 @@ the command-line interface
 '''
 
 import argparse
-import functools
 import io
 import sys
 
-from lib import espeak
+from lib.articles import choose_art
 from lib.enc import get_encoding
 from lib.misc import (
-    choose_art,
     warn,
     open_file,
 )
 from lib.parser import parse_file
+from lib.phonetics import init as init_phonetics, text_to_phonemes
 from lib.version import __version__
-
-text_to_phonemes = functools.lru_cache(maxsize=9999)(espeak.text_to_phonemes)
 
 class VersionAction(argparse.Action):
     '''
@@ -53,6 +50,7 @@ class VersionAction(argparse.Action):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        from lib import espeak
         print('{prog} {0}'.format(__version__, prog=parser.prog))
         print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
         print('+ eSpeak {0}'.format(espeak.version))
@@ -86,8 +84,7 @@ def main():
     options = ap.parse_args()
     encoding = get_encoding()
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding)
-    espeak.init()
-    espeak.set_voice_by_name('en')
+    init_phonetics()
     for path in options.files:
         file = open_file(path, encoding=encoding, errors='replace')
         with file:
