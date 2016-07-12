@@ -1,6 +1,4 @@
-#!/usr/bin/python3
-
-# Copyright © 2016 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2012-2016 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
@@ -20,14 +18,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
+PYTHON = python3
+INSTALL = install
 
-basedir = None
-if basedir is not None:
-    sys.path[:0] = [basedir]
+PREFIX = /usr/local
+DESTDIR =
 
-import lib.cli  # pylint: disable=wrong-import-position
-if __name__ == '__main__':
-    lib.cli.main()
+exe = anorack
 
-# vim:ts=4 sts=4 sw=4 et
+bindir = $(PREFIX)/bin
+basedir = $(PREFIX)/share/$(exe)
+mandir = $(PREFIX)/share/man
+
+.PHONY: all
+all: ;
+
+.PHONY: install
+install:
+	# binary:
+	$(INSTALL) -d -m755 $(DESTDIR)$(bindir)
+	sed -e "s#^basedir = .*#basedir = '$(basedir)/'#" $(exe) > $(DESTDIR)$(bindir)/$(exe)
+	chmod 0755 $(DESTDIR)$(bindir)/$(exe)
+	# library + data:
+	( find lib data -type f ! -name '*.py[co]' ) \
+	| xargs -t -I {} $(INSTALL) -p -D -m644 {} $(DESTDIR)$(basedir)/{}
+	# manual page:
+	$(INSTALL) -p -D -m644 doc/$(exe).1 $(DESTDIR)$(mandir)/man1/$(exe).1
+
+.PHONY: test
+test:
+	$(PYTHON) -c 'import nose; nose.main()' --verbose
+
+.PHONY: clean
+clean:
+	find . -type f -name '*.py[co]' -delete
+	find . -type d -name '__pycache__' -delete
+
+# vim:ts=4 sts=4 sw=4 noet
