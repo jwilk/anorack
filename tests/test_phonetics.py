@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import functools
+
 from nose.tools import (
     assert_equal,
 )
@@ -26,22 +28,27 @@ from tests.tools import isolation
 
 import lib.phonetics as M
 
-def _test_overrides():
-    def t(word, xphon, xipa):
-        phon = M.text_to_phonemes(word)
-        assert_equal(xphon, phon)
-        ipa = M.text_to_phonemes(word, ipa=True)
-        assert_equal(xipa, ipa)
+def __test(word, xphon, xipa):
     M.init()
-    t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
-    t('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
-    t('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
-    t('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
-    t('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
-    t('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
-    t('unary', "j'un@ri", "jˈunəɹi")
-    t('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
-test_overrides = isolation(_test_overrides)
-test_overrides.__name__ = 'test_overrides'
+    phon = M.text_to_phonemes(word)
+    assert_equal(xphon, phon)
+    ipa = M.text_to_phonemes(word, ipa=True)
+    assert_equal(xipa, ipa)
+_test = isolation(__test)
+
+def test_overrides():
+    def t(word, xphon, xipa):
+        return (
+            functools.partial(_test, xphon=xphon, xipa=xipa),
+            word
+        )
+    yield t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
+    yield t('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
+    yield t('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
+    yield t('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
+    yield t('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
+    yield t('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
+    yield t('unary', "j'un@ri", "jˈunəɹi")
+    yield t('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
 
 # vim:ts=4 sts=4 sw=4 et
