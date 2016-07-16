@@ -85,6 +85,7 @@ def main():
     options = ap.parse_args()
     encoding = get_encoding()
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding)
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding)
     init_phonetics()
     for path in options.files:
         file = open_file(path, encoding=encoding, errors='replace')
