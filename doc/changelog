@@ -1,10 +1,10 @@
-anorack (0.1.2) UNRELEASED; urgency=low
+anorack (0.2) UNRELEASED; urgency=low
 
   * Add option for printing phonemes using IPA (--ipa).
   * Add Makefile.
   * Use /usr/bin/env in shebang.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 16 Jul 2016 17:58:38 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 16 Jul 2016 18:06:54 +0200
 
 anorack (0.1.1) unstable; urgency=low
 
