@@ -27,18 +27,20 @@ from tests.tools import isolation
 import lib.phonetics as M
 
 def _test_overrides():
-    def t(word, xphon):
+    def t(word, xphon, xipa):
         phon = M.text_to_phonemes(word)
         assert_equal(xphon, phon)
+        ipa = M.text_to_phonemes(word, ipa=True)
+        assert_equal(xipa, ipa)
     M.init()
-    t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS")
-    t('UCS', "j,u:s,i:;'Es")
-    t('UDP', "j,u:d,i:p'i:")
-    t('UTF', "j,u:t,i:;'Ef")
-    t('UTS', "j,u:t,i:;'Es")
-    t('UUID', "j,u:j,u:,aId'i:")
-    t('unary', "j'un@ri")
-    t('usr', "j,u:,Es'A@")
+    t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
+    t('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
+    t('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
+    t('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
+    t('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
+    t('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
+    t('unary', "j'un@ri", "jˈunəɹi")
+    t('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
 test_overrides = isolation(_test_overrides)
 test_overrides.__name__ = 'test_overrides'
 

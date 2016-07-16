@@ -28,8 +28,16 @@ def test_choose_a():
     art = M.choose_art("sp'am")
     assert_equal(art, 'a')
 
+def test_choose_a_ipa():
+    art = M.choose_art("θˈɜːmɪdˌɔː")
+    assert_equal(art, 'a')
+
 def test_choose_an():
     art = M.choose_art("'Eg")
+    assert_equal(art, 'an')
+
+def test_choose_an_ipa():
+    art = M.choose_art("ˈɛɡ")
     assert_equal(art, 'an')
 
 def test_choose_other():

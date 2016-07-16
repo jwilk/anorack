@@ -85,7 +85,7 @@ if version >= '1.48.1':
     _text_to_phonemes.restype = ctypes.c_char_p
     _text_to_phonemes.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_int, ctypes.c_int]
 
-    def text_to_phonemes(s):
+    def text_to_phonemes(s, *, ipa=False):
         '''
         translate text to phonemes
         '''
@@ -93,10 +93,10 @@ if version >= '1.48.1':
         z = ctypes.c_char_p(s)
         zptr = ctypes.pointer(z)
         assert zptr.contents is not None
-        res = _text_to_phonemes(zptr, 1, 0)
+        res = _text_to_phonemes(zptr, 1, ipa << 4)
         if zptr.contents.value is not None:
             raise RuntimeError  # no coverage
-        return res.decode('ASCII').strip()
+        return res.decode('UTF-8').strip()
 
 elif version >= '1.47.08':  # no coverage
 
@@ -109,15 +109,15 @@ elif version >= '1.47.08':  # no coverage
         ctypes.c_int, ctypes.c_int
     ]
 
-    def text_to_phonemes(s):
+    def text_to_phonemes(s, *, ipa=False):
         '''
         translate text to phonemes
         '''
         s = s.encode('UTF-8')
         bufsize = 250
         buf = ctypes.create_string_buffer(bufsize)
-        _text_to_phonemes(s, buf, bufsize, 1, 0)
-        return buf.value.decode('ASCII').strip()
+        _text_to_phonemes(s, buf, bufsize, 1, ipa << 4)
+        return buf.value.decode('UTF-8').strip()
 
 else:  # no coverage
 

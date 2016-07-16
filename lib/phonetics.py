@@ -25,9 +25,18 @@ English phonetics
 import functools
 import os
 
-consonants = frozenset('DNSTZbdfghjklmnprstvwz')
-vowels = frozenset('03@AEIOUVaeiou')
-accents = frozenset(",'")
+consonants = frozenset(
+    'DNSTZbdfghjklmnprstvwz'
+    'ðŋʃθʒbdfɡhjkɬmnpɹstvwz'
+)
+vowels = frozenset(
+    '03@AEIOUVaeiou'
+    'ɒɜəɑɛɪɔʊʌɐeiɔu'
+)
+accents = frozenset(
+    ",'"
+    "ˌˈ"
+)
 
 espeak = None
 overrides = {}
@@ -47,20 +56,20 @@ def init():
     with open(path, 'rt', encoding='UTF-8') as file:
         for line in file:
             line = line.strip()
-            (word, phon) = line.split('\t')
+            (word, phon) = line.split('\t', 1)
             word = word.lower()
             overrides[word] = phon
 
 @functools.lru_cache(maxsize=9999)
-def text_to_phonemes(s):
+def text_to_phonemes(s, *, ipa=False):
     '''
     translate text to phonemes
     '''
     s = overrides.get(s.lower(), s)
     if s.startswith('[[') and s.endswith(']]'):
-        return s[2:-2]
+        return s.split('\t')[ipa][2:-2]
     else:
-        return espeak.text_to_phonemes(s)
+        return espeak.text_to_phonemes(s, ipa=ipa)
 
 __all__ = [
     'consonants',

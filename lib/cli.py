@@ -56,11 +56,11 @@ class VersionAction(argparse.Action):
         print('+ eSpeak {0}'.format(espeak.version))
         parser.exit()
 
-def check_word(loc, art, word):
+def check_word(loc, art, word, *, ipa=False):
     '''
     check if the word has correct article
     '''
-    phon = text_to_phonemes(word)
+    phon = text_to_phonemes(word, ipa=ipa)
     correct_art = choose_art(phon)
     if correct_art is NotImplemented:
         warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
@@ -79,6 +79,7 @@ def main():
     '''
     ap = argparse.ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
+    ap.add_argument('--ipa', action='store_true', help='use IPA instead of phoneme mnemonics')
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
     options = ap.parse_args()
@@ -89,7 +90,7 @@ def main():
         file = open_file(path, encoding=encoding, errors='replace')
         with file:
             for loc, art, word in parse_file(file):
-                check_word(loc, art, word)
+                check_word(loc, art, word, ipa=options.ipa)
 
 __all__ = ['main']
 
