@@ -36,7 +36,7 @@ class Location(object):
         return '{path}:{n}'.format(path=self.file.name, n=self.lineno)
 
 find_articles = re.compile(
-    r'''\b(an?)\s+(?:['‘"“]\s*)?([^\W_]+)\b|\b(an?)\s*$''',
+    r'''\b(an?)\s+(?:['‘"“]\s*)?(\d+|[^\W\d_]+)|\b(an?)\s*$''',
     re.IGNORECASE
 ).finditer
 

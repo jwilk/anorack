@@ -59,4 +59,16 @@ def test_quotes():
         [(i, 'a', 'scratch') for i in range(1, 5)]
     )
 
+def test_underscore():
+    t('a European_swallow', (1, 'a', 'European'))
+
+def test_numbers():
+    t('an 8', (1, 'an', '8'))
+    t('an 8bit', (1, 'an', '8'))
+    t('an 8-bit', (1, 'an', '8'))
+    t('an 8 bit', (1, 'an', '8'))
+    t('a UTF16', (1, 'a', 'UTF'))
+    t('a UTF-16', (1, 'a', 'UTF'))
+    t('a UTF 16', (1, 'a', 'UTF'))
+
 # vim:ts=4 sts=4 sw=4 et
