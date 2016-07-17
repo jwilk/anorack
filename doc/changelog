@@ -1,12 +1,12 @@
 anorack (0.2) UNRELEASED; urgency=low
 
+  * Fix word-splitting for compounds that include numbers or underscores.
+    This fixes, among others, false positives involving acronyms such as
+    “a UTF16”.
   * Retain original article's case in correction.
   * Add option for printing phonemes using IPA (--ipa).
   * Add Makefile.
   * Use /usr/bin/env in shebang.
-  * Fix word-splitting for compounds that include numbers or underscores.
-    This fixes, among others, false positives involving acronyms such as
-    “a UTF16”.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sun, 17 Jul 2016 22:20:41 +0200
 
