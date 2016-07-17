@@ -80,7 +80,11 @@ def _run_main(argv, stdin):
 
 run_main = isolation(_run_main)
 
-def t(*, stdin=None, files=None, stdout, stderr=''):
+def t(*, stdin=None, files=None, stdout, stdout_ipa=None, stderr='', stderr_ipa=None):
+    if stdout_ipa is None:
+        stdout_ipa = stdout
+    if stderr_ipa is None:
+        stderr_ipa = stderr
     argv = ['anorack']
     if files is not None:
         for (name, content) in files:
@@ -90,6 +94,10 @@ def t(*, stdin=None, files=None, stdout, stderr=''):
     (actual_stdout, actual_stderr) = run_main(argv, stdin)
     assert_equal(stdout, actual_stdout)
     assert_equal(stderr, actual_stderr)
+    argv += ['--ipa']
+    (actual_stdout, actual_stderr) = run_main(argv, stdin)
+    assert_equal(stdout_ipa, actual_stdout)
+    assert_equal(stderr_ipa, actual_stderr)
 
 def test_stdin():
     t(
@@ -101,7 +109,11 @@ def test_stdin():
         stdout=(
             "<stdin>:2: a African -> an African /'afrIk@n/\n"
             "<stdin>:3: an European -> a European /j,U@r-@p'i@n/\n"
-        )
+        ),
+        stdout_ipa=(
+            "<stdin>:2: a African -> an African /ˈafɹɪkən/\n"
+            "<stdin>:3: an European -> a European /jˌʊəɹəpˈiən/\n"
+        ),
     )
 
 @tmpcwd()
@@ -114,7 +126,11 @@ def test_files():
         stdout=(
             "holy:1: a African -> an African /'afrIk@n/\n"
             "grail:1: an European -> a European /j,U@r-@p'i@n/\n"
-        )
+        ),
+        stdout_ipa=(
+            "holy:1: a African -> an African /ˈafɹɪkən/\n"
+            "grail:1: an European -> a European /jˌʊəɹəpˈiən/\n"
+        ),
     )
 
 def test_warning():
@@ -124,7 +140,8 @@ def test_warning():
         t(
             stdin='A scratch?!',
             stdout='',
-            stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n"
+            stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n",
+            stderr_ipa="anorack: warning: can't determine correct article for 'scratch' /skɹˈatʃ/\n",
         )
 
 def test_changelog():
