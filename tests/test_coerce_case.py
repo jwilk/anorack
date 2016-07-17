@@ -18,42 +18,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-'''
-miscellanea
-'''
+from nose.tools import (
+    assert_equal,
+)
 
-import os
-import sys
+import lib.misc as M
 
-def warn(msg):
-    '''
-    print warning message
-    '''
-    prog = os.path.basename(sys.argv[0])
-    print('{prog}: warning: {msg}'.format(prog=prog, msg=msg), file=sys.stderr)
+def t(src, word, exp):
+    res = M.coerce_case(src, word)
+    assert_equal(exp, res)
 
-def _coerce_case(src, word):
-    '''
-    coerce word to the same case as src
-    (simple version doesn't support title-case)
-    '''
-    if src.isupper():
-        return word.upper()
-    else:
-        return word.lower()
+def test_a():
+    t('a', 'a', 'a')
+    t('A', 'a', 'A')
+    t('an', 'a', 'a')
+    t('An', 'a', 'A')
+    t('AN', 'a', 'A')
 
-def coerce_case(src, word):
-    '''
-    coerce word to the same case as src
-    '''
-    return (
-        _coerce_case(src[:1], word[:1]) +
-        _coerce_case(src[1:], word[1:])
-    )
-
-__all__ = [
-    'warn',
-    'coerce_case',
-]
+def test_an():
+    t('a', 'an', 'an')
+    t('A', 'an', 'An')
+    t('an', 'an', 'an')
+    t('An', 'an', 'An')
+    t('AN', 'an', 'AN')
 
 # vim:ts=4 sts=4 sw=4 et

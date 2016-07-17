@@ -31,7 +31,7 @@ from lib.io import (
     get_encoding,
     open_file,
 )
-from lib.misc import warn
+from lib.misc import coerce_case, warn
 from lib.parser import parse_file
 from lib.phonetics import init as init_phonetics, text_to_phonemes
 from lib.version import __version__
@@ -65,6 +65,7 @@ def check_word(loc, art, word, *, ipa=False):
     if correct_art is NotImplemented:
         warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
     elif art.lower() != correct_art:
+        correct_art = coerce_case(art, correct_art)
         print('{loc}: {art} {word} -> {cart} {word} /{phon}/'.format(
             loc=loc,
             art=art,
