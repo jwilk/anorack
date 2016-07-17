@@ -29,6 +29,8 @@ from nose.tools import (
 import lib.parser as M
 
 def t(s, exp):
+    if isinstance(exp, tuple):
+        exp = [exp]
     file = io.StringIO(s)
     result = list(M.parse_file(file))
     assert_equal(len(result), len(exp))
@@ -46,9 +48,7 @@ def test_mid_line():
     ])
 
 def test_wrapped():
-    t('I thought we were an\nautonomous collective.', [
-        (2, 'an', 'autonomous'),
-    ])
+    t('I thought we were an\nautonomous collective.', (2, 'an', 'autonomous'))
 
 def test_quotes():
     t(
