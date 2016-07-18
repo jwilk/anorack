@@ -1,4 +1,4 @@
-anorack (0.2) UNRELEASED; urgency=low
+anorack (0.2) unstable; urgency=low
 
   * Fix word-splitting for compounds that include numbers or underscores.
     This fixes, among others, false positives involving acronyms such as
@@ -8,7 +8,7 @@ anorack (0.2) UNRELEASED; urgency=low
   * Add Makefile.
   * Use /usr/bin/env in shebang.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 17 Jul 2016 22:20:41 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 18 Jul 2016 12:12:40 +0200
 
 anorack (0.1.1) unstable; urgency=low
 
