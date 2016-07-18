@@ -8,7 +8,7 @@ anorack
 
 :manual section: 1
 :version: anorack 0.2
-:date: 2016-07-16
+:date: 2016-07-18
 
 Synopsis
 --------
