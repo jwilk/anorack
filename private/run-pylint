@@ -22,7 +22,7 @@
 
 set -e -u
 
-pylint=$(which pylint) || { echo pylint not found >&2; exit 1; }
+python3 -m pylint --version >/dev/null || exit 1
 
 if [ $# -eq 0 ]
 then
@@ -30,7 +30,7 @@ then
     set -- lib tests $pyscripts
 fi
 set -- --load-plugins=pylint.extensions.check_elif "$@"
-! python3 "$pylint" "$@" \
+! python3 -m pylint "$@" \
 | grep '^\w:' \
 | grep -v -P '^\w: (?!lib/).*: missing-docstring ' \
 | grep '.'
