@@ -15,16 +15,21 @@ addons:
 cache:
   directories:
   - $HOME/.cache/pip
+before_install:
+- no_pylint=true
+- \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] ||
+  \[ "$TRAVIS_PYTHON_VERSION" = pypy3 ] ||
+  no_pylint=false
 install:
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - pip install pyflakes
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pylint
+- $no_pylint || pip install pylint
 - pip install docutils
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
 script:
 - python3 -m nose --verbose
 - private/run-pyflakes
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || \[ "$TRAVIS_PYTHON_VERSION" = "pypy3" ] || private/run-pylint
+- $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || find -name '*.rst' | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
 
 # vim:ts=2 sts=2 sw=2 et
