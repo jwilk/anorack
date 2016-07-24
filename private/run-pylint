@@ -23,9 +23,7 @@
 set -e -u
 
 PYTHON=${PYTHON:-python3}
-
 "$PYTHON" -m pylint --version >/dev/null || exit 1
-
 if [ $# -eq 0 ]
 then
     pyscripts=$(grep -l -r '^#!.*python' .)
