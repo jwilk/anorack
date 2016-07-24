@@ -29,7 +29,7 @@ then
     pyscripts=$(grep -l -r '^#!.*python' .)
     set -- lib tests $pyscripts
 fi
-set -- -j0 --load-plugins=pylint.extensions.check_elif "$@"
+set -- --load-plugins=pylint.extensions.check_elif "$@"
 ! python3 "$pylint" "$@" \
 | grep '^\w:' \
 | grep -v -P '^\w: (?!lib/).*: missing-docstring ' \
