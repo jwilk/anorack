@@ -20,9 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-opts='-j0 --load-plugins=pylint.extensions.check_elif'
+set -e -u
+
 pylint=$(which pylint) || { echo pylint not found >&2; exit 1; }
-! python3 "$pylint" $opts lib tests $(grep -l -r '^#!.*python' .) \
+
+if [ $# -eq 0 ]
+then
+    pyscripts=$(grep -l -r '^#!.*python' .)
+    set -- lib tests $pyscripts
+fi
+set -- -j0 --load-plugins=pylint.extensions.check_elif "$@"
+! python3 "$pylint" "$@" \
 | grep '^\w:' \
 | grep -v -P '^\w: (?!lib/).*: missing-docstring ' \
 | grep '.'
