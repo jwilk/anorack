@@ -31,6 +31,11 @@ then
     pyscripts=$(grep -l -r '^#!.*python' .)
     set -- lib tests $pyscripts
 fi
+if [ -n "${TRAVIS_PYTHON_VERSION:-}" ]
+then
+    # https://github.com/PyCQA/pylint/issues/73
+    set -- --ignored-modules=distutils "$@"
+fi
 set -- --load-plugins=pylint.extensions.check_elif "$@"
 ! "$PYTHON" -m pylint "$@" \
 | grep '^\w:' \
