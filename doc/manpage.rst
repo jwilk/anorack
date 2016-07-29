@@ -16,9 +16,14 @@ Synopsis
 
 Description
 -----------
+
+The English language has two indefinite articles:
+
++ *a*: used before words that begin with a consonant sound (e.g., *a program*, *a host*, *a user*);
++ *an*: used before words that begin with a vowel sound (e.g., *an example*, *an hour*, *an undefined variable*).
+
 **anorack** is a specialized spell-checker
-that finds incorrect indefinite articles
-(“a” instead of “an”, or other way round).
+that finds incorrect indefinite articles.
 
 Options
 -------
