@@ -1,8 +1,9 @@
 anorack (0.2.1) UNRELEASED; urgency=low
 
-  * 
+  * Explain the grammar rules in README and in the manual page.
+  * Don't disable stdout/stderr line buffering.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 18 Jul 2016 13:35:02 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 21 Aug 2016 15:10:23 +0200
 
 anorack (0.2) unstable; urgency=low
 
