@@ -92,7 +92,11 @@ if version >= '1.48.1':
         z = ctypes.c_char_p(s)
         zptr = ctypes.pointer(z)
         assert zptr.contents is not None
-        res = _text_to_phonemes(zptr, 1, ipa << 4)
+        if version >= '1.48.11':
+            ipa = ipa << 1
+        else:
+            ipa = ipa << 4
+        res = _text_to_phonemes(zptr, 1, ipa)
         if zptr.contents.value is not None:
             raise RuntimeError  # no coverage
         return res.decode('UTF-8').strip()
