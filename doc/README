@@ -26,7 +26,10 @@ Prerequisites
 
 * Python ≥ 3.2
 
-* eSpeak_ ≥ 1.47.08
+* `eSpeak NG`_ or eSpeak_ ≥ 1.47.08
+
+.. _eSpeak NG:
+   https://github.com/espeak-ng/espeak-ng
 
 .. _eSpeak:
    http://espeak.sourceforge.net/

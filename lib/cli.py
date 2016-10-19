@@ -53,7 +53,10 @@ class VersionAction(argparse.Action):
         from lib import espeak
         print('{prog} {0}'.format(__version__, prog=parser.prog))
         print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
-        print('+ eSpeak {0}'.format(espeak.version))
+        print('+ eSpeak{ng} {0}'.format(
+            espeak.version,
+            ng=(' NG' if espeak.ng else '')
+        ))
         parser.exit()
 
 def check_word(loc, art, word, *, ipa=False):

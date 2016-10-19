@@ -19,13 +19,18 @@
 # SOFTWARE.
 
 '''
-interface to eSpeak
+interface to eSpeak (NG)
 '''
 
 import ctypes
 import distutils.version
 
-_shlib = ctypes.CDLL('libespeak.so.1')
+try:
+    _shlib = ctypes.CDLL('libespeak-ng.so.1')
+    ng = True  # no coverage
+except OSError:
+    _shlib = ctypes.CDLL('libespeak.so.1')
+    ng = False
 
 # const char *espeak_Info(const char **path_data)
 _info = _shlib.espeak_Info
@@ -93,7 +98,7 @@ if version >= '1.48.1':
         zptr = ctypes.pointer(z)
         assert zptr.contents is not None
         if version >= '1.48.11':
-            ipa = ipa << 1
+            ipa = ipa << 1  # no coverage
         else:
             ipa = ipa << 4
         res = _text_to_phonemes(zptr, 1, ipa)
@@ -128,6 +133,7 @@ else:  # no coverage
 
 __all__ = [
     'init',
+    'ng',
     'set_voice_by_name',
     'text_to_phonemes',
     'version',
