@@ -6,12 +6,18 @@ python:
 - "3.5"
 - nightly
 - pypy3
+env:
+- NG=
+- NG=1
 sudo: required
 dist: trusty
 addons:
   apt:
     packages:
+    - autoconf
+    - automake
     - libespeak1
+    - libtool
 cache:
   directories:
   - $HOME/.cache/pip
@@ -27,6 +33,12 @@ install:
 - pip install docutils
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
 script:
+- \[ ! "$NG" ] || git clone --depth 1 https://github.com/espeak-ng/espeak-ng
+- \[ ! "$NG" ] || (cd espeak-ng && ./autogen.sh && ./configure)
+- \[ ! "$NG" ] || make -C espeak-ng
+- \[ ! "$NG" ] || sudo make -C espeak-ng install
+- \[ ! "$NG" ] || sudo ldconfig
+- \[ ! "$NG" ] || python3 anorack --version | grep -w NG
 - python3 -m nose --verbose
 - private/run-pyflakes
 - $no_pylint || private/run-pylint
