@@ -92,6 +92,9 @@ def t(*, stdin=None, files=None, stdout, stdout_ipa=None, stderr='', stderr_ipa=
                 file.write(content)
             argv += [name]
     (actual_stdout, actual_stderr) = run_main(argv, stdin)
+    if '-@' in stdout:
+        stdout = stdout.replace('-@', '@')
+        actual_stdout = actual_stdout.replace('-@', '@')
     assert_equal(stdout, actual_stdout)
     assert_equal(stderr, actual_stderr)
     argv += ['--ipa']
