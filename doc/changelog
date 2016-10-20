@@ -1,3 +1,9 @@
+anorack (0.2.3) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 20 Oct 2016 12:11:13 +0200
+
 anorack (0.2.2) unstable; urgency=low
 
   * Fix compatibility with eSpeak >= 1.48.11.
