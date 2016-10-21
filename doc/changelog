@@ -8,6 +8,7 @@ anorack (0.2.2) unstable; urgency=low
 
   * Fix compatibility with eSpeak >= 1.48.11.
   * Add support for eSpeak NG.
+  * Put license into a separate file.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 19 Oct 2016 20:11:33 +0200
 
