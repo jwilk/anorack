@@ -10,8 +10,9 @@ python:
 env:
 - NG=
 - NG=1
-sudo: required
 dist: trusty
+sudo: false
+group: beta
 addons:
   apt:
     packages:
@@ -32,10 +33,10 @@ install:
 - pip install docutils
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
 - \[ ! "$NG" ] || git clone --depth 1 https://github.com/espeak-ng/espeak-ng
-- \[ ! "$NG" ] || (cd espeak-ng && ./autogen.sh && ./configure)
+- \[ ! "$NG" ] || (cd espeak-ng && ./autogen.sh && ./configure --prefix ~/opt)
 - \[ ! "$NG" ] || make -C espeak-ng
-- \[ ! "$NG" ] || sudo make -C espeak-ng install
-- \[ ! "$NG" ] || sudo ldconfig
+- \[ ! "$NG" ] || make -C espeak-ng install
+- \[ ! "$NG" ] || export LD_LIBRARY_PATH=$HOME/opt/lib
 - \[ ! "$NG" ] || rm -rf espeak-ng
 script:
 - \[ ! "$NG" ] || python3 anorack --version | grep -w NG
