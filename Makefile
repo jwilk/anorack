@@ -37,7 +37,11 @@ all: ;
 install:
 	# binary:
 	$(INSTALL) -d -m755 $(DESTDIR)$(bindir)
-	sed -e "s#^basedir = .*#basedir = '$(basedir)/'#" $(exe) > $(DESTDIR)$(bindir)/$(exe)
+	python_exe=$$($(PYTHON) -c 'import sys; print(sys.executable)') && \
+	sed \
+		-e "1 s@^#!.*@#!$$python_exe@" \
+		-e "s#^basedir = .*#basedir = '$(basedir)/'#" \
+		$(exe) > $(DESTDIR)$(bindir)/$(exe)
 	chmod 0755 $(DESTDIR)$(bindir)/$(exe)
 	# library + data:
 	( find lib data -type f ! -name '*.py[co]' ) \
