@@ -49,8 +49,8 @@ cd "$sourceroot"/*
 find -name '__pycache__' | xargs rm -rf
 rm .git*
 rm .travis.yml
-rm README.rst  # shipped as doc/README
 rm private/build-source-tarball
+rm README.rst  # shipped as doc/README
 mv LICENSE doc/
 make -C doc/
 cd ..
