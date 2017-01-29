@@ -34,4 +34,24 @@ Prerequisites
 .. _eSpeak:
    http://espeak.sourceforge.net/
 
+Installation
+============
+
+You can use anorack without installing it,
+straight out of unpacked source tarball or a VCS checkout.
+
+It's also possible to install it system-wide with:
+
+.. code:: console
+
+   # make install
+
+By default, ``make install`` installs the package to ``/usr/local``.
+You can specify a different installation prefix
+by setting the ``PREFIX`` variable, e.g.:
+
+.. code:: console
+
+   $ make install PREFIX=$HOME/.local
+
 .. vim:ft=rst ts=3 sts=3 sw=3 et
