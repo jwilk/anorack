@@ -19,9 +19,7 @@ addons:
     - automake
     - libespeak1
     - libtool
-cache:
-  directories:
-  - $HOME/.cache/pip
+cache: pip
 before_install:
 - no_pylint=true
 - \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] ||
