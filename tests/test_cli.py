@@ -99,6 +99,7 @@ def t(*, stdin=None, files=None, stdout, stdout_ipa=None, stderr='', stderr_ipa=
     assert_equal(stderr, actual_stderr)
     argv += ['--ipa']
     (actual_stdout, actual_stderr) = run_main(argv, stdin)
+    actual_stderr = actual_stderr.replace('t͡ʃ', 'tʃ')
     assert_equal(stdout_ipa, actual_stdout)
     assert_equal(stderr_ipa, actual_stderr)
 

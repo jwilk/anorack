@@ -33,6 +33,7 @@ def __test(word, xphon, xipa):
     phon = M.text_to_phonemes(word)
     assert_equal(xphon, phon)
     ipa = M.text_to_phonemes(word, ipa=True)
+    ipa = ipa.replace('t͡ʃ', 'tʃ')
     assert_equal(xipa, ipa)
 _test = isolation(__test)
 
