@@ -30,13 +30,13 @@ install:
 - $no_pylint || pip install pylint
 - pip install docutils
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
-script:
 - \[ ! "$NG" ] || git clone --depth 1 https://github.com/espeak-ng/espeak-ng
 - \[ ! "$NG" ] || (cd espeak-ng && ./autogen.sh && ./configure)
 - \[ ! "$NG" ] || make -C espeak-ng
 - \[ ! "$NG" ] || sudo make -C espeak-ng install
 - \[ ! "$NG" ] || sudo ldconfig
 - \[ ! "$NG" ] || rm -rf espeak-ng
+script:
 - \[ ! "$NG" ] || python3 anorack --version | grep -w NG
 - python3 -m nose --verbose
 - private/run-pyflakes
