@@ -1,8 +1,10 @@
 anorack (0.2.3) UNRELEASED; urgency=low
 
   * Rewrite shebang at install time.
+  * Add installation instructions to README.
+  * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 11 Dec 2016 13:49:22 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 01 Mar 2017 11:39:24 +0100
 
 anorack (0.2.2) unstable; urgency=low
 
