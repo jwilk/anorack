@@ -1,11 +1,11 @@
-anorack (0.2.3) UNRELEASED; urgency=low
+anorack (0.2.3) unstable; urgency=low
 
   * Rewrite shebang at install time.
   * Make the doc makefile more portable.
   * Add installation instructions to README.
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 01 Mar 2017 11:39:24 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 22 Mar 2017 18:46:51 +0100
 
 anorack (0.2.2) unstable; urgency=low
 
