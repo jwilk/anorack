@@ -1,6 +1,7 @@
 anorack (0.2.3) UNRELEASED; urgency=low
 
   * Rewrite shebang at install time.
+  * Make the doc makefile more portable.
   * Add installation instructions to README.
   * Improve the test suite.
 
