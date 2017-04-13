@@ -4,6 +4,7 @@ disable =
     duplicate-code,
     invalid-name,
     locally-disabled,
+    no-else-return,
     too-few-public-methods,
 
 [REPORTS]
