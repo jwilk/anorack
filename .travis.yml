@@ -12,7 +12,6 @@ env:
 - NG=1
 dist: trusty
 sudo: false
-group: beta
 addons:
   apt:
     packages:
