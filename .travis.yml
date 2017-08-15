@@ -6,7 +6,7 @@ python:
 - "3.5"
 - "3.6"
 - "3.7-dev"
-- pypy3.3-5.2-alpha1
+- pypy3
 env:
 - NG=
 - NG=1
@@ -22,7 +22,7 @@ addons:
 before_install:
 - no_pylint=true
 - \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] ||
-  [[ "$TRAVIS_PYTHON_VERSION" =~ pypy3 ]] ||
+  \[ "$TRAVIS_PYTHON_VERSION" = pypy3 ] ||
   [[ "$TRAVIS_PYTHON_VERSION" =~ dev ]] ||
   no_pylint=false
 install:
