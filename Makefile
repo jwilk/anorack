@@ -47,7 +47,7 @@ install:
 	( find lib data -type f ! -name '*.py[co]' ) \
 	| xargs -t -I {} $(INSTALL) -p -D -m644 {} $(DESTDIR)$(basedir)/{}
 ifeq "$(wildcard .git doc/$(exe).1)" ".git"
-	# run "make -C doc" to build the manpage
+	# run "$(MAKE) -C doc" to build the manpage
 else
 	# manual page:
 	$(INSTALL) -p -D -m644 doc/$(exe).1 $(DESTDIR)$(mandir)/man1/$(exe).1
