@@ -24,6 +24,7 @@ the command-line interface
 
 import argparse
 import io
+import signal
 import sys
 
 from lib.articles import choose_art
@@ -81,6 +82,7 @@ def main():
     '''
     run the program
     '''
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     ap = argparse.ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
     ap.add_argument('--ipa', action='store_true', help='use IPA instead of phoneme mnemonics')
