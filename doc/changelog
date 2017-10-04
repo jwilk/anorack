@@ -1,6 +1,6 @@
 anorack (0.2.4) UNRELEASED; urgency=low
 
-  * 
+  * Reset the SIGPIPE signal disposition.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 04 Oct 2017 17:27:40 +0200
 
