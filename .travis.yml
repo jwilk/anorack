@@ -40,8 +40,8 @@ install:
 script:
 - \[ ! "$NG" ] || python3 anorack --version | grep -w NG
 - python3 -m nose --verbose
-- private/run-pydiatra
-- private/run-pyflakes
+- python3 -m pydiatra .
+- python3 -m pyflakes .
 - $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] || private/check-rst
 - make -C doc
