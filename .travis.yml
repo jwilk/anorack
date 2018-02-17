@@ -26,8 +26,7 @@ before_install:
   [[ "$TRAVIS_PYTHON_VERSION" =~ dev ]] ||
   no_pylint=false
 install:
-- pip install pydiatra
-- pip install pyflakes
+- pip install pydiatra pyflakes
 - $no_pylint || pip install pylint
 - pip install docutils
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
