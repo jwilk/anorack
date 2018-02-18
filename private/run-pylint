@@ -29,7 +29,7 @@ then
     pyscripts=$(grep -l -r '^#!.*python' .)
     set -- lib tests $pyscripts
 fi
-if [ -n "${TRAVIS_PYTHON_VERSION:-}" ]
+if [ -n "${VIRTUAL_ENV:-}" ]
 then
     # https://github.com/PyCQA/pylint/issues/73
     set -- --ignored-modules=distutils "$@"
