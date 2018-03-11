@@ -46,6 +46,7 @@ script:
 - \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] || private/check-rst
 - make -C doc
 - make install PREFIX=~/.local
+- cd /
 - anorack --help
 - export MANPATH=~/.local/share/man MANWIDTH=80
 - man 1 anorack | grep -A 10 -w ANORACK
