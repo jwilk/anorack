@@ -40,7 +40,7 @@ install:
 - $if_ng export LD_LIBRARY_PATH=~/.local/lib
 - $if_ng rm -rf espeak-ng
 script:
-- $if_ng grep -w NG <<<"$(python3 anorack --version)"
+- $if_ng grep -w NG <<<"$(./anorack --version)"
 - python3 -m nose --verbose
 - python3 -m pydiatra .
 - python3 -m pyflakes .
