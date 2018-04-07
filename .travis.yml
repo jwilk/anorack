@@ -20,30 +20,32 @@ addons:
     - libespeak1
     - libtool
 before_install:
-- no_pylint=true
-- |
-  [[ $TRAVIS_PYTHON_VERSION = 3.2 ]] ||
-  [[ $TRAVIS_PYTHON_VERSION = pypy3 ]] ||
-  [[ $TRAVIS_PYTHON_VERSION = *-dev ]] ||
-  no_pylint=false
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = pypy3 ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
+- if [[ -z $NG ]]; then if_ng=:; fi
 install:
 - pip install pydiatra pyflakes
-- $no_pylint || pip install pylint
+- $if_pylint pip install pylint
 - pip install docutils
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install pygments
-- \[ ! "$NG" ] || git clone --depth 1 https://github.com/espeak-ng/espeak-ng
-- \[ ! "$NG" ] || (cd espeak-ng && ./autogen.sh && ./configure --prefix ~/.local)
-- \[ ! "$NG" ] || make -C espeak-ng
-- \[ ! "$NG" ] || make -C espeak-ng install
-- \[ ! "$NG" ] || export LD_LIBRARY_PATH=~/.local/lib
-- \[ ! "$NG" ] || rm -rf espeak-ng
+- $if_pygments pip install pygments
+- $if_ng git clone --depth 1 https://github.com/espeak-ng/espeak-ng
+- $if_ng pushd espeak-ng
+- $if_ng ./autogen.sh
+- $if_ng ./configure --prefix ~/.local
+- $if_ng make
+- $if_ng make install
+- $if_ng popd
+- $if_ng export LD_LIBRARY_PATH=~/.local/lib
+- $if_ng rm -rf espeak-ng
 script:
-- \[ ! "$NG" ] || python3 anorack --version | grep -w NG
+- $if_ng grep -w NG <<<"$(python3 anorack --version)"
 - python3 -m nose --verbose
 - python3 -m pydiatra .
 - python3 -m pyflakes .
-- $no_pylint || private/run-pylint
-- \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] || private/check-rst
+- $if_pylint private/run-pylint
+- $if_pygments private/check-rst
 - make -C doc
 - make install PREFIX=~/.local
 - cd /
