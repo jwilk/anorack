@@ -7,8 +7,8 @@ anorack
 -------------------
 
 :manual section: 1
-:version: anorack 0.2.4
-:date: 2017-10-04
+:version: anorack 0.2.5
+:date: 2018-05-18
 
 Synopsis
 --------
