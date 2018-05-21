@@ -20,13 +20,16 @@ addons:
     - libespeak1
     - libtool
 before_install:
+- pyflakes=pyflakes
+- if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = pypy3 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
 - if [[ -z $NG ]]; then if_ng=:; fi
 install:
-- pip install pydiatra pyflakes
+- pip install pydiatra
+- pip install $pyflakes
 - $if_pylint pip install pylint
 - pip install docutils
 - $if_pygments pip install pygments
