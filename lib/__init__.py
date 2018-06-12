@@ -2,4 +2,4 @@
 anorack's private modules
 '''
 
-type(...)
+type(...)  # Python >= 3 is required
