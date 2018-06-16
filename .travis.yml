@@ -43,6 +43,7 @@ install:
 - $if_ng export LD_LIBRARY_PATH=~/.local/lib
 - $if_ng rm -rf espeak-ng
 script:
+- dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
 - $if_ng grep -w NG <<<"$(./anorack --version)"
 - python3 -m nose --verbose
 - python3 -m pydiatra .
