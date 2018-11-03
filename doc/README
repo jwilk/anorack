@@ -40,17 +40,13 @@ Installation
 You can use anorack without installing it,
 straight out of unpacked source tarball or a VCS checkout.
 
-It's also possible to install it system-wide with:
-
-.. code:: console
+It's also possible to install it system-wide with::
 
    # make install
 
 By default, ``make install`` installs the package to ``/usr/local``.
 You can specify a different installation prefix
-by setting the ``PREFIX`` variable, e.g.:
-
-.. code:: console
+by setting the ``PREFIX`` variable, e.g.::
 
    $ make install PREFIX="$HOME/.local"
 
