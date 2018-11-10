@@ -33,11 +33,11 @@ before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
 - if [[ -z $NG ]]; then if_ng=:; fi
 install:
-- pip install pydiatra
-- pip install $pyflakes
-- $if_pylint pip install pylint
-- pip install docutils
-- $if_pygments pip install pygments
+- python3 -m pip install pydiatra
+- python3 -m pip install $pyflakes
+- $if_pylint python3 -m pip install pylint
+- python3 -m pip install docutils
+- $if_pygments python3 -m pip install pygments
 - $if_ng git clone --depth 1 https://github.com/espeak-ng/espeak-ng
 - $if_ng pushd espeak-ng
 - $if_ng ./autogen.sh
