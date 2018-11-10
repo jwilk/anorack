@@ -93,11 +93,19 @@ def main():
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding, line_buffering=sys.stdout.line_buffering)
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding, line_buffering=sys.stdout.line_buffering)
     init_phonetics()
+    rc = 0
     for path in options.files:
-        file = open_file(path, encoding=encoding, errors='replace')
+        try:
+            file = open_file(path, encoding=encoding, errors='replace')
+        except IOError as exc:
+            msg = '{prog}: {path}: {exc}'.format(prog=ap.prog, path=path, exc=exc.strerror)
+            print(msg, file=sys.stderr)
+            rc = 1
+            continue
         with file:
             for loc, art, word in parse_file(file):
                 check_word(loc, art, word, ipa=options.ipa)
+    sys.exit(rc)
 
 __all__ = ['main']
 
