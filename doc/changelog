@@ -1,8 +1,14 @@
 anorack (0.2.5) UNRELEASED; urgency=low
 
-  * 
+  * Don't die with exception when a file cannot be opened.
+    (If there are many input files, it's helpful to continue when one of them
+    cannot be opened.)
+  * Improve the build system:
+    + Add checks against BSD make. (Only GNU make is supported.)
+    + Use ginstall(1), instead of install(1), if it exists.
+    + Remove the test coverage file in the clean target.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 18 May 2018 21:16:18 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 10 Nov 2018 21:18:00 +0100
 
 anorack (0.2.4) unstable; urgency=low
 
