@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 '''
-the command-line interface
+anorack CLI
 '''
 
 import argparse
