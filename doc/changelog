@@ -7,6 +7,8 @@ anorack (0.2.5) UNRELEASED; urgency=low
     + Add checks against BSD make. (Only GNU make is supported.)
     + Use ginstall(1), instead of install(1), if it exists.
     + Remove the test coverage file in the clean target.
+  * Improve typography in the manual page.
+  * Improve the test suite.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 10 Nov 2018 21:18:00 +0100
 
