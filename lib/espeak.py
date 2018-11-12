@@ -27,8 +27,8 @@ import distutils.version
 
 try:
     _shlib = ctypes.CDLL('libespeak-ng.so.1')
-    ng = True  # no coverage
-except OSError:
+    ng = True
+except OSError:  # no coverage
     _shlib = ctypes.CDLL('libespeak.so.1')
     ng = False
 
@@ -98,9 +98,9 @@ if version >= '1.48.1':
         zptr = ctypes.pointer(z)
         assert zptr.contents is not None
         if version >= '1.48.11':
-            ipa = ipa << 1  # no coverage
+            ipa = ipa << 1
         else:
-            ipa = ipa << 4
+            ipa = ipa << 4  # no coverage
         res = _text_to_phonemes(zptr, 1, ipa)
         if zptr.contents.value is not None:
             raise RuntimeError  # no coverage
