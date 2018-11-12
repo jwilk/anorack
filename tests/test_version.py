@@ -36,4 +36,14 @@ def test_changelog():
     changelog_version = line.split()[1].strip('()')
     assert_equal(changelog_version, __version__)
 
+def test_manpage():
+    path = os.path.join(docdir, 'manpage.rst')
+    manpage_version = None
+    with open(path, 'rt', encoding='UTF-8') as file:
+        for line in file:
+            if line.startswith(':version:'):
+                manpage_version = line.split()[-1]
+                break
+    assert_equal(manpage_version, __version__)
+
 # vim:ts=4 sts=4 sw=4 et
