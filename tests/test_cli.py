@@ -51,6 +51,12 @@ def TextIO(s=None, *, name):
     fp.name = name
     return io.TextIOWrapper(fp, encoding='UTF-8')
 
+class CompletedProcess():
+    def __init__(self, rc, stdout, stderr):
+        self.rc = rc
+        self.stdout = stdout
+        self.stderr = stderr
+
 def __run_main(argv, stdin):
     sys.argv = argv
     if stdin is not None:
@@ -62,11 +68,14 @@ def __run_main(argv, stdin):
     sys.stdout = mock_stdout = TextIO(name=sys.__stdout__.name)
     sys.stderr = mock_stderr = TextIO(name=sys.__stderr__.name)
     import lib.cli
+    rc = 0
     try:
         lib.cli.main()
     except SystemExit as exc:
-        if exc.code != 0:
-            raise
+        rc = exc.code
+    except EnvironmentError as exc:
+        rc = exc
+    yield rc
     for fp in (sys.stdout, sys.stderr):
         fp.flush()
         s = fp.buffer.getvalue()  # pylint: disable=no-member
@@ -76,7 +85,7 @@ def __run_main(argv, stdin):
 def _run_main(argv, stdin):
     # abuse mock to save&restore sys.argv, sys.stdin, etc.:
     with mock.patch.multiple(sys, argv=None, stdin=None, stdout=None, stderr=None):
-        return tuple(__run_main(argv, stdin))
+        return CompletedProcess(*__run_main(argv, stdin))
 
 run_main = isolation(_run_main)
 
@@ -91,17 +100,19 @@ def t(*, stdin=None, files=None, stdout, stdout_ipa=None, stderr='', stderr_ipa=
             with open(name, 'wt', encoding='UTF-8') as file:
                 file.write(content)
             argv += [name]
-    (actual_stdout, actual_stderr) = run_main(argv, stdin)
+    actual = run_main(argv, stdin)
     if '-@' in stdout:
         stdout = stdout.replace('-@', '@')
-        actual_stdout = actual_stdout.replace('-@', '@')
-    assert_equal(stdout, actual_stdout)
-    assert_equal(stderr, actual_stderr)
+        actual.stdout = actual.stdout.replace('-@', '@')
+    assert_equal(stdout, actual.stdout)
+    assert_equal(stderr, actual.stderr)
+    assert_equal(actual.rc, 0)
     argv += ['--ipa']
-    (actual_stdout, actual_stderr) = run_main(argv, stdin)
-    actual_stderr = actual_stderr.replace('t͡ʃ', 'tʃ')
-    assert_equal(stdout_ipa, actual_stdout)
-    assert_equal(stderr_ipa, actual_stderr)
+    actual = run_main(argv, stdin)
+    actual.stderr = actual.stderr.replace('t͡ʃ', 'tʃ')
+    assert_equal(stdout_ipa, actual.stdout)
+    assert_equal(stderr_ipa, actual.stderr)
+    assert_equal(actual.rc, 0)
 
 def test_stdin():
     t(
@@ -150,14 +161,16 @@ def test_warning():
 
 def test_changelog():
     argv = ['anorack', 'doc/changelog']
-    (actual_stdout, actual_stderr) = run_main(argv, None)
-    assert_equal('', actual_stdout)
-    assert_equal('', actual_stderr)
+    actual = run_main(argv, None)
+    assert_equal('', actual.stdout)
+    assert_equal('', actual.stderr)
+    assert_equal(actual.rc, 0)
 
 def test_version():
     argv = ['anorack', '--version']
-    (actual_stdout, actual_stderr) = run_main(argv, None)
-    assert_not_equal('', actual_stdout)
-    assert_equal('', actual_stderr)
+    actual = run_main(argv, None)
+    assert_not_equal('', actual.stdout)
+    assert_equal('', actual.stderr)
+    assert_equal(actual.rc, 0)
 
 # vim:ts=4 sts=4 sw=4 et
