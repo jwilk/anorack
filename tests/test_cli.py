@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 import contextlib
+import errno
 import io
 import os
 import sys
@@ -31,6 +32,7 @@ except ImportError:
 
 from nose.tools import (
     assert_equal,
+    assert_is_instance,
     assert_not_equal,
 )
 
@@ -158,6 +160,24 @@ def test_warning():
             stderr="anorack: warning: can't determine correct article for 'scratch' /skr'atS/\n",
             stderr_ipa="anorack: warning: can't determine correct article for 'scratch' /skɹˈatʃ/\n",
         )
+
+def test_bad_io():
+    argv = ['anorack', '/nonexistent', '-']
+    actual = run_main(argv, 'a African')
+    assert_equal('<stdin>:', actual.stdout[:8])
+    stderr = '{prog}: {path}: {err}\n'.format(
+        prog=argv[0],
+        path=argv[1],
+        err=os.strerror(errno.ENOENT)
+    )
+    assert_equal(stderr, actual.stderr)
+    assert_equal(actual.rc, 1)
+    argv[1:1] = ['--traceback']
+    actual = run_main(argv, 'a African')
+    assert_equal('', actual.stdout)
+    assert_equal('', actual.stderr)
+    assert_is_instance(actual.rc, IOError)
+    assert_equal(actual.rc.errno, errno.ENOENT)
 
 def test_changelog():
     argv = ['anorack', 'doc/changelog']
