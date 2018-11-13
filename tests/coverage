@@ -2,14 +2,14 @@ Generated automatically by private/update-coverage. Do not edit.
 
 Name               Stmts   Miss Branch BrPart  Cover   Missing
 --------------------------------------------------------------
-lib/__init__.py        1      0      0      0   100%
+lib/__init__.py        3      0      0      0   100%
 lib/articles.py       14      0      4      0   100%
-lib/cli.py            45      0      8      0   100%
-lib/espeak.py         46      0      0      0   100%
+lib/cli.py            56      0     10      0   100%
+lib/espeak.py         44      0      0      0   100%
 lib/io.py             16      0      4      0   100%
 lib/misc.py           13      0      2      0   100%
 lib/parser.py         22      0      6      0   100%
 lib/phonetics.py      27      0      4      0   100%
 lib/version.py         1      0      0      0   100%
 --------------------------------------------------------------
-TOTAL                185      0     28      0   100%
+TOTAL                196      0     30      0   100%
