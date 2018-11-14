@@ -43,11 +43,12 @@ install:
 		-e "s#^basedir = .*#basedir = '$(basedir)/'#" \
 		$(exe) > $(DESTDIR)$(bindir)/$(exe)
 	chmod 0755 $(DESTDIR)$(bindir)/$(exe)
-	# library + data:
-	install -d $(DESTDIR)$(basedir)/lib
-	install -p -m644 lib/*.py $(DESTDIR)$(basedir)/lib/
+	# data:
 	install -d $(DESTDIR)$(basedir)/data
 	install -p -m644 data/* $(DESTDIR)$(basedir)/data/
+	# library:
+	install -d $(DESTDIR)$(basedir)/lib
+	install -p -m644 lib/*.py $(DESTDIR)$(basedir)/lib/
 ifeq "$(DESTDIR)" ""
 	umask 022 && $(PYTHON) -m compileall $(basedir)/lib/
 endif
