@@ -23,17 +23,15 @@ PYTHON = python3
 PREFIX = /usr/local
 DESTDIR =
 
-exe = anorack
-
 bindir = $(PREFIX)/bin
-basedir = $(PREFIX)/share/$(exe)
+basedir = $(PREFIX)/share/anorack
 mandir = $(PREFIX)/share/man
 
 .PHONY: all
 all: ;
 
 .PHONY: install
-install:
+install: anorack
 	$(PYTHON) - < lib/__init__.py  # Python version check
 	# binary:
 	install -d $(DESTDIR)$(bindir)
@@ -41,8 +39,8 @@ install:
 	sed \
 		-e "1 s@^#!.*@#!$$python_exe@" \
 		-e "s#^basedir = .*#basedir = '$(basedir)/'#" \
-		$(exe) > $(DESTDIR)$(bindir)/$(exe)
-	chmod 0755 $(DESTDIR)$(bindir)/$(exe)
+		$(<) > $(DESTDIR)$(bindir)/$(<)
+	chmod 0755 $(DESTDIR)$(bindir)/$(<)
 	# data:
 	install -d $(DESTDIR)$(basedir)/data
 	install -p -m644 data/* $(DESTDIR)$(basedir)/data/
@@ -52,12 +50,12 @@ install:
 ifeq "$(DESTDIR)" ""
 	umask 022 && $(PYTHON) -m compileall $(basedir)/lib/
 endif
-ifeq "$(wildcard doc/$(exe).1)" ""
+ifeq "$(wildcard doc/*.1)" ""
 	# run "$(MAKE) -C doc" to build the manpage
 else
 	# manual page:
 	install -d $(DESTDIR)$(mandir)/man1
-	install -p -m644 doc/$(exe).1 $(DESTDIR)$(mandir)/man1/
+	install -p -m644 doc/$(<).1 $(DESTDIR)$(mandir)/man1/
 endif
 
 .PHONY: test
