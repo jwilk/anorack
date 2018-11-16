@@ -23,9 +23,8 @@ addons:
     - libtool
 before_install:
 - pyflakes=pyflakes
-- if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
-- if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.3 ]]; then pyflakes='pyflakes<2'; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.3 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = pypy3 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
 - if [[ -z $NG ]]; then if_ng=:; fi
@@ -37,7 +36,7 @@ install:
   fi
 - $if_pylint python3 -m pip install pylint
 - python3 -m pip install docutils
-- $if_pygments python3 -m pip install pygments
+- python3 -m pip install pygments
 - $if_ng git clone --depth 1 https://github.com/espeak-ng/espeak-ng
 - $if_ng pushd espeak-ng
 - $if_ng ./autogen.sh
@@ -54,7 +53,7 @@ script:
 - python3 -m pydiatra .
 - python3 -m pyflakes .
 - $if_pylint private/run-pylint
-- $if_pygments private/check-rst
+- private/check-rst
 - make -C doc
 - make install PREFIX=~/.local
 - cd /
