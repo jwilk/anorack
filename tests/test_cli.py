@@ -24,11 +24,7 @@ import io
 import os
 import sys
 import tempfile
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock  # pylint: disable=import-error
+import unittest.mock
 
 from nose.tools import (
     assert_equal,
@@ -86,7 +82,7 @@ def __run_main(argv, stdin):
 
 def _run_main(argv, stdin):
     # abuse mock to save&restore sys.argv, sys.stdin, etc.:
-    with mock.patch.multiple(sys, argv=None, stdin=None, stdout=None, stderr=None):
+    with unittest.mock.patch.multiple(sys, argv=None, stdin=None, stdout=None, stderr=None):
         return CompletedProcess(*__run_main(argv, stdin))
 
 run_main = isolation(_run_main)
@@ -153,7 +149,7 @@ def test_files():
 def test_warning():
     def dummy_choose_art(phon):  # pylint: disable=unused-argument
         return NotImplemented
-    with mock.patch('lib.cli.choose_art', dummy_choose_art):
+    with unittest.mock.patch('lib.cli.choose_art', dummy_choose_art):
         t(
             stdin='A scratch?!',
             stdout='',

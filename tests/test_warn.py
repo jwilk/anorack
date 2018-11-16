@@ -19,10 +19,7 @@
 # SOFTWARE.
 
 import io
-try:
-    from unittest import mock
-except ImportError:
-    import mock  # pylint: disable=import-error
+import unittest.mock
 
 from nose.tools import (
     assert_equal,
@@ -32,8 +29,8 @@ import lib.misc as M
 
 def test_warn():
     stderr = io.StringIO()
-    with mock.patch('sys.stderr', stderr):
-        with mock.patch('sys.argv', ['/usr/bin/anorack']):
+    with unittest.mock.patch('sys.stderr', stderr):
+        with unittest.mock.patch('sys.argv', ['/usr/bin/anorack']):
             M.warn('NOBODY expects the Spanish Inquisition!')
     assert_equal(
         stderr.getvalue(),
