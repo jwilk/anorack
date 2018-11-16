@@ -172,7 +172,7 @@ def test_bad_io():
     actual = run_main(argv, 'a African')
     assert_equal('', actual.stdout)
     assert_equal('', actual.stderr)
-    assert_is_instance(actual.rc, IOError)
+    assert_is_instance(actual.rc, OSError)
     assert_equal(actual.rc.errno, errno.ENOENT)
 
 def test_changelog():

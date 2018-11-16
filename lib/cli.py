@@ -98,7 +98,7 @@ def main():
     for path in options.files:
         try:
             file = open_file(path, encoding=encoding, errors='replace')
-        except IOError as exc:
+        except OSError as exc:
             if options.traceback:
                 raise
             msg = '{prog}: {path}: {exc}'.format(prog=ap.prog, path=path, exc=exc.strerror)
