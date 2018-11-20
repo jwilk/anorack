@@ -1,6 +1,5 @@
 language: python
 dist: trusty
-sudo: false
 matrix:
   include:
   - python: "3.3"
