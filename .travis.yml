@@ -39,7 +39,7 @@ install:
 - $if_ng git clone --depth 1 https://github.com/espeak-ng/espeak-ng
 - $if_ng pushd espeak-ng
 - $if_ng ./autogen.sh
-- $if_ng ./configure --prefix ~/.local
+- $if_ng ./configure --prefix ~/.local || cat config.log /fail
 - $if_ng make
 - $if_ng make install
 - $if_ng popd
