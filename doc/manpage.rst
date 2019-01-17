@@ -29,9 +29,9 @@ Options
 -------
 
 -h, --help
-   Show the help message and exit.
+   Show help message and exit.
 --version
-   Show the program's version information and exit.
+   Show version information and exit.
 --ipa
    Print phonemes using IPA (International Phonetic Alphabet)
    instead of ASCII phoneme mnemonics.
