@@ -48,6 +48,7 @@ install:
 script:
 - dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
 - $if_ng grep -w NG <<<"$(./anorack --version)"
+# this may time out because of <https://bugs.python.org/issue35866>:
 - timeout 10s python3 -m nose --verbose
 - python3 -m pydiatra .
 - python3 -m pyflakes .
