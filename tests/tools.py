@@ -30,7 +30,7 @@ def isolation(f):
     else:
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
-            with concurrent.futures.ProcessPoolExecutor() as executor:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
                 ftr = executor.submit(f, *args, **kwargs)
                 return ftr.result()
     return wrapper
