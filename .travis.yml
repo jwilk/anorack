@@ -1,6 +1,6 @@
 language: python
 dist: trusty
-matrix:
+jobs:
   include:
   - python: "3.3"
   - python: "3.4"
