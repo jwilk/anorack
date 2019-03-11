@@ -33,7 +33,7 @@ all: ;
 .PHONY: install
 install: anorack
 	$(PYTHON) - < lib/__init__.py  # Python version check
-	# binary:
+	# executable:
 	install -d $(DESTDIR)$(bindir)
 	python_exe=$$($(PYTHON) -c 'import sys; print(sys.executable)') && \
 	sed \
