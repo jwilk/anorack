@@ -28,13 +28,13 @@ that finds incorrect indefinite articles.
 Options
 -------
 
+--ipa
+   Print phonemes using IPA (International Phonetic Alphabet)
+   instead of ASCII phoneme mnemonics.
 -h, --help
    Show help message and exit.
 --version
    Show version information and exit.
---ipa
-   Print phonemes using IPA (International Phonetic Alphabet)
-   instead of ASCII phoneme mnemonics.
 
 Example
 -------
