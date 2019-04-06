@@ -21,6 +21,8 @@
 export LC_ALL=C
 
 rst2man = $(notdir $(shell command -v rst2man || echo rst2man.py))
+rst2xml = $(notdir $(shell command -v rst2xml || echo rst2xml.py))
+
 exe = anorack
 
 .PHONY: all
@@ -31,6 +33,17 @@ $(exe).1: manpage.rst
 	perl -pi -e '/^[.]BI\b/ and s/\\fP/\\fR/g' $(@).tmp  # work-around for https://bugs.debian.org/806601
 	perl -ni -e 'print unless /^[.]\\" vim:/' $(@).tmp
 	mv $(@).tmp $(@)
+
+.PHONY: check
+check: check-changelog check-rst
+
+.PHONY: check-changelog
+check-changelog: changelog
+	dpkg-parsechangelog -l$(<) --all 2>&1 >/dev/null | { ! grep .; }
+
+.PHONY: check-rst
+check-rst:
+	ls README *.rst | xargs -t -I{} $(rst2xml) --input-encoding=UTF-8 --strict {} /dev/null
 
 .PHONY: clean
 clean:
