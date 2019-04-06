@@ -31,8 +31,7 @@ install:
 - python3 -m pip install pydiatra
 - python3 -m pip install $pyflakes
 - $if_pylint python3 -m pip install pylint
-- python3 -m pip install docutils
-- python3 -m pip install pygments
+- python3 -m pip install docutils pygments
 - $if_ng git clone --depth 1 https://github.com/espeak-ng/espeak-ng
 - $if_ng pushd espeak-ng
 - $if_ng ./autogen.sh
