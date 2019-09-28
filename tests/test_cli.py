@@ -65,7 +65,7 @@ def __run_main(argv, stdin):
         mock_stdin = None
     sys.stdout = mock_stdout = TextIO(name=sys.__stdout__.name)
     sys.stderr = mock_stderr = TextIO(name=sys.__stderr__.name)
-    import lib.cli
+    import lib.cli  # pylint: disable=bad-option-value,import-outside-toplevel
     rc = 0
     try:
         lib.cli.main()
