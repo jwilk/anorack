@@ -51,7 +51,7 @@ class VersionAction(argparse.Action):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
-        from lib import espeak
+        from lib import espeak  # pylint: disable=import-outside-toplevel
         print('{prog} {0}'.format(__version__, prog=parser.prog))
         print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
         print('+ eSpeak{ng} {0}'.format(
