@@ -71,7 +71,7 @@ def __run_main(argv, stdin):
         lib.cli.main()
     except SystemExit as exc:
         rc = exc.code
-    except EnvironmentError as exc:
+    except OSError as exc:
         rc = exc
     yield rc
     for fp in (sys.stdout, sys.stderr):
