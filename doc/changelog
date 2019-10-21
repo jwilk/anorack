@@ -1,4 +1,4 @@
-anorack (0.2.5) UNRELEASED; urgency=low
+anorack (0.2.5) unstable; urgency=low
 
   * Drop support for Python 3.2.
   * Don't die with exception when a file cannot be opened.
@@ -13,7 +13,7 @@ anorack (0.2.5) UNRELEASED; urgency=low
   * Rephrase description of --version in help messages.
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 19 Oct 2019 21:52:02 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 21 Oct 2019 18:08:22 +0200
 
 anorack (0.2.4) unstable; urgency=low
 
