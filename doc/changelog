@@ -1,10 +1,10 @@
-anorack (0.2.6) UNRELEASED; urgency=low
+anorack (0.2.6) unstable; urgency=low
 
   * Add override for "src".
     https://github.com/jwilk/anorack/issues/5
     Thanks to Paul Wise and Emmanuel Arias for the bug report.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 22 May 2020 08:49:46 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 25 May 2020 14:49:32 +0200
 
 anorack (0.2.5) unstable; urgency=low
 
