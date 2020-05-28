@@ -46,6 +46,7 @@ def test_overrides():
     yield t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
     yield t('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
     yield t('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
+    yield t('UPS', "j,u:p,i:;'Es", 'jˌuːpˌiːˈɛs')
     yield t('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
     yield t('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
     yield t('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
