@@ -3,8 +3,11 @@ anorack (0.2.7) UNRELEASED; urgency=low
   * Add override for "UPS".
     https://github.com/jwilk/anorack/issues/6
     Thanks to Martin Michlmayr for the bug report.
+  * Fix parsing words with intra-word apostrophes.
+    https://github.com/jwilk/anorack/issues/7
+    Thanks to Martin Michlmayr for the bug report.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 28 May 2020 11:21:13 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 01 Jun 2020 19:04:55 +0200
 
 anorack (0.2.6) unstable; urgency=low
 
