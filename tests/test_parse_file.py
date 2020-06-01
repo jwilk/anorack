@@ -71,4 +71,8 @@ def test_numbers():
     t('a UTF-16', (1, 'a', 'UTF'))
     t('a UTF 16', (1, 'a', 'UTF'))
 
+def test_inner_apostrophe():
+    t("Esra'a Al Shafei", [])
+    t('Esra’a Al Shafei', [])
+
 # vim:ts=4 sts=4 sw=4 et
