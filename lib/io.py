@@ -57,7 +57,7 @@ def open_file(path, *, encoding, errors):
             errors=errors,
         )
     else:
-        return open(
+        return open(  # pylint: disable=consider-using-with
             path, 'rt',
             encoding=encoding,
             errors=errors,
