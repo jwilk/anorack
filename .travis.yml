@@ -27,6 +27,7 @@ before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.3 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = pypy3 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.10-* ]]; then pip install --upgrade --no-deps --force-reinstall --no-binary ':all:' nose; fi
 - if [[ -z $NG ]]; then if_ng=:; fi
 install:
 - python3 -m pip install pydiatra
