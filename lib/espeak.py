@@ -23,7 +23,7 @@ interface to eSpeak (NG)
 '''
 
 import ctypes
-import distutils.version
+import itertools
 
 try:
     _shlib = ctypes.CDLL('libespeak-ng.so.1')
@@ -44,8 +44,23 @@ def info():
     dummy = ctypes.c_char_p(b'')
     res = _info(ctypes.byref(dummy))
     return res.decode('ASCII')
-version = distutils.version.LooseVersion(info().split()[0])
+version = info().split()[0]
 del info
+
+def vcmp(v1, v2):
+    '''
+    cmp()-style version comparison
+    '''
+    v1 = v1.split('.')
+    v2 = v2.split('.')
+    for c1, c2 in itertools.zip_longest(v1, v2, fillvalue=0):
+        c1 = int(c1)
+        c2 = int(c2)
+        if c1 > c2:
+            return 1
+        elif c1 < c2:
+            return -1
+    return 0
 
 # int espeak_Initialize(espeak_AUDIO_OUTPUT output, int buflength, const char *path, int options)
 _initialize = _shlib.espeak_Initialize
@@ -82,7 +97,7 @@ def set_voice_by_name(s):
             msg = 'unknown error {}'.format(rc)
         raise RuntimeError('espeak_SetVoiceByName(): ' + msg)
 
-if version >= '1.48.1':
+if vcmp(version, '1.48.1') >= 0:
 
     # const char *espeak_TextToPhonemes(const void **textptr, int textmode, int phonememode)
     _text_to_phonemes = _shlib.espeak_TextToPhonemes
@@ -97,7 +112,7 @@ if version >= '1.48.1':
         z = ctypes.c_char_p(s)
         zptr = ctypes.pointer(z)
         assert zptr.contents is not None
-        if version >= '1.48.11':
+        if vcmp(version, '1.48.11') >= 0:
             ipa = ipa << 1
         else:
             ipa = ipa << 4  # no coverage
@@ -106,7 +121,7 @@ if version >= '1.48.1':
             raise RuntimeError  # no coverage
         return res.decode('UTF-8').strip()
 
-elif version >= '1.47.08':  # no coverage
+elif vcmp(version, '1.47.08') >= 0:  # no coverage
 
     # void espeak_TextToPhonemes(const void *text, char *buffer, int size, int textmode, int phonememode)
     _text_to_phonemes = _shlib.espeak_TextToPhonemes
