@@ -1,0 +1,82 @@
+name: CI
+on:
+- push
+- pull_request
+jobs:
+  main:
+    strategy:
+      matrix:
+        include:
+        - python-version: '3.3'
+          os: ubuntu-18.04
+        - python-version: '3.4'
+          os: ubuntu-18.04
+        - python-version: '3.5'
+          os: ubuntu-18.04
+        - python-version: '3.6'
+          os: ubuntu-20.04
+        - python-version: '3.7'
+          os: ubuntu-20.04
+        - python-version: '3.8'
+          os: ubuntu-20.04
+        - python-version: '3.9'
+          os: ubuntu-20.04
+        - python-version: '3.9'
+          os: ubuntu-20.04
+          ng: ng
+        - python-version: '3.10-dev'
+          os: ubuntu-20.04
+    runs-on: ${{matrix.os}}
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up Python ${{matrix.python-version}}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{matrix.python-version}}
+    - name: install eSpeak
+      run: sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
+    - name: run tests
+      run: |
+        python3 -m pip install --no-binary ':all:' nose
+        # this may time out because of <https://bugs.python.org/issue35866>:
+        timeout 10s python3 -m nose --verbose
+    - name: run pydiatra
+      run: |
+        python3 -m pip install pydiatra
+        python3 -m pydiatra .
+    - name: run pyflakes
+      run: |
+        pyflakes=pyflakes
+        if [[ ${{matrix.python-version}} = 3.3 ]]; then pyflakes+='<2'; fi
+        python3 -m pip install $pyflakes
+        python3 -m pyflakes .
+    - name: run pylint
+      run: |
+        python3 -m pip install pylint
+        private/run-pylint
+      if:
+        matrix.python-version != '3.3' &&
+        matrix.python-version != '3.4'
+    - name: build docs
+      run: |
+        python3 -m pip install docutils
+        make -C doc
+    - name: check docs
+      run: |
+        python3 -m pip install pygments
+        make -C doc check
+    - name: install
+      run:
+        make install PREFIX=~/.local
+    - name: check whether the executbele was installed correctly
+      run: |
+        anorack --version
+        anorack --help
+    - name: check whether the man page was installed correctly
+      env:
+        MANPATH: /home/runner/.local/share/man
+        MANWIDTH: 80
+      run: |
+        man 1 anorack | grep -A 10 -w ANORACK
+
+# vim:ts=2 sts=2 sw=2 et
