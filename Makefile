@@ -61,7 +61,7 @@ endif
 
 .PHONY: test
 test:
-	$(PYTHON) -c 'import nose; nose.main()' --verbose
+	$(PYTHON) -m nose --verbose
 
 .PHONY: clean
 clean:
