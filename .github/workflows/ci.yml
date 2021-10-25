@@ -34,7 +34,9 @@ jobs:
       with:
         python-version: ${{matrix.python-version}}
     - name: install eSpeak
-      run: sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
+      run: |
+        sudo apt-get update
+        sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
     - name: run tests
       run: |
         python3 -m pip install --no-binary ':all:' nose
