@@ -22,6 +22,7 @@ import os
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.io as M
@@ -33,10 +34,14 @@ def t(path):
         assert_equal(file.encoding, encoding)
         assert_equal(file.errors, errors)
 
+@testcase
 def test_open_real_file():
     t(os.devnull)
 
+@testcase
 def test_open_stdin():
     t('-')
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

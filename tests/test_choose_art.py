@@ -20,30 +20,38 @@
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.articles as M
 
+@testcase
 def test_choose_a():
     art = M.choose_art("sp'am")
     assert_equal(art, 'a')
 
+@testcase
 def test_choose_a_ipa():
     art = M.choose_art("θˈɜːmɪdˌɔː")
     assert_equal(art, 'a')
 
+@testcase
 def test_choose_an():
     art = M.choose_art("'Eg")
     assert_equal(art, 'an')
 
+@testcase
 def test_choose_an_ipa():
     art = M.choose_art("ˈɛɡ")
     assert_equal(art, 'an')
 
+@testcase
 def test_choose_other():
     art = M.choose_art('%')
     assert_equal(art, NotImplemented)
     art = M.choose_art('')
     assert_equal(art, NotImplemented)
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

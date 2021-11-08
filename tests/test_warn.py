@@ -23,10 +23,12 @@ import unittest.mock
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.misc as M
 
+@testcase
 def test_warn():
     stderr = io.StringIO()
     with unittest.mock.patch('sys.stderr', stderr):
@@ -36,5 +38,7 @@ def test_warn():
         stderr.getvalue(),
         'anorack: warning: NOBODY expects the Spanish Inquisition!\n'
     )
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

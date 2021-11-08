@@ -36,6 +36,15 @@ def isolation(f):
                 return ftr.result()
     return wrapper
 
+def testcase(f):
+    class TestCase(unittest.TestCase):  # pylint: disable=redefined-outer-name
+        @staticmethod
+        def test():
+            return f()
+        def __str__(self):
+            return '{f.__module__}.{f.__name__}'.format(f=f)
+    return TestCase
+
 tc = unittest.TestCase('__hash__')
 
 assert_equal = tc.assertEqual
@@ -45,9 +54,18 @@ assert_not_equal = tc.assertNotEqual
 
 del tc
 
+class TestCase(unittest.TestCase):
+    def __str__(self):
+        return '{cls}.{name}'.format(
+            cls=unittest.util.strclass(self.__class__),
+            name=self._testMethodName,
+        )
+
 __all__ = [
     'isolation',
-    # nose:
+    'testcase',
+    'TestCase',
+    # nose-compatible:
     'assert_equal',
     'assert_is',
     'assert_is_instance',

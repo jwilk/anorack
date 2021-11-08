@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import functools
-
 from tests.tools import (
     assert_equal,
     isolation,
+    testcase,
+    TestCase,
 )
 
 import lib.phonetics as M
@@ -36,21 +36,28 @@ def __test(word, xphon, xipa):
     assert_equal(xipa, ipa)
 _test = isolation(__test)
 
-def test_overrides():
-    def t(word, xphon, xipa):
-        return (
-            functools.partial(_test, xphon=xphon, xipa=xipa),
-            word
-        )
-    yield t('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
-    yield t('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
-    yield t('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
-    yield t('UPS', "j,u:p,i:;'Es", 'jˌuːpˌiːˈɛs')
-    yield t('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
-    yield t('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
-    yield t('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
-    yield t('src', "s'o@s", 'sˈɔːs')
-    yield t('unary', "j'un@ri", "jˈunəɹi")
-    yield t('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
+class test_overrides(TestCase):
+    pass
+
+def _init_test_overrides():
+    def add(word, xphon, xipa):
+        @staticmethod
+        def test():
+            _test(word, xphon, xipa)
+        setattr(test_overrides, 'test_' + word, test)
+    add('EWMH', ",i:d,Vb@Lj,u:,Em'eItS", 'ˌiːdˌʌbəljˌuːˌɛmˈeɪtʃ')
+    add('UCS', "j,u:s,i:;'Es", 'jˌuːsˌiːˈɛs')
+    add('UDP', "j,u:d,i:p'i:", 'jˌuːdˌiːpˈiː')
+    add('UPS', "j,u:p,i:;'Es", 'jˌuːpˌiːˈɛs')
+    add('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
+    add('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
+    add('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
+    add('src', "s'o@s", 'sˈɔːs')
+    add('unary', "j'un@ri", "jˈunəɹi")
+    add('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
+_init_test_overrides()
+del _init_test_overrides
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

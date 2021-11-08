@@ -31,6 +31,7 @@ from tests.tools import (
     assert_is_instance,
     assert_not_equal,
     isolation,
+    testcase,
 )
 
 @contextlib.contextmanager
@@ -111,6 +112,7 @@ def t(*, stdin=None, files=None, stdout, stdout_ipa=None, stderr='', stderr_ipa=
     assert_equal(stderr_ipa, actual.stderr)
     assert_equal(actual.rc, 0)
 
+@testcase
 def test_stdin():
     t(
         stdin=(
@@ -128,6 +130,7 @@ def test_stdin():
         ),
     )
 
+@testcase
 @tmpcwd()
 def test_files():
     t(
@@ -145,6 +148,7 @@ def test_files():
         ),
     )
 
+@testcase
 def test_warning():
     def dummy_choose_art(phon):  # pylint: disable=unused-argument
         return NotImplemented
@@ -156,6 +160,7 @@ def test_warning():
             stderr_ipa="anorack: warning: can't determine correct article for 'scratch' /skɹˈatʃ/\n",
         )
 
+@testcase
 def test_bad_io():
     argv = ['anorack', '/nonexistent', '-']
     actual = run_main(argv, 'a African')
@@ -174,6 +179,7 @@ def test_bad_io():
     assert_is_instance(actual.rc, OSError)
     assert_equal(actual.rc.errno, errno.ENOENT)
 
+@testcase
 def test_changelog():
     argv = ['anorack', 'doc/changelog']
     actual = run_main(argv, None)
@@ -181,11 +187,14 @@ def test_changelog():
     assert_equal('', actual.stderr)
     assert_equal(actual.rc, 0)
 
+@testcase
 def test_version():
     argv = ['anorack', '--version']
     actual = run_main(argv, None)
     assert_not_equal('', actual.stdout)
     assert_equal('', actual.stderr)
     assert_equal(actual.rc, 0)
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

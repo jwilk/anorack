@@ -20,6 +20,7 @@
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.misc as M
@@ -28,6 +29,7 @@ def t(src, word, exp):
     res = M.coerce_case(src, word)
     assert_equal(exp, res)
 
+@testcase
 def test_a():
     t('a', 'a', 'a')
     t('A', 'a', 'A')
@@ -35,11 +37,14 @@ def test_a():
     t('An', 'a', 'A')
     t('AN', 'a', 'A')
 
+@testcase
 def test_an():
     t('a', 'an', 'an')
     t('A', 'an', 'An')
     t('an', 'an', 'an')
     t('An', 'an', 'An')
     t('AN', 'an', 'AN')
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

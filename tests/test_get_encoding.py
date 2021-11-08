@@ -22,6 +22,7 @@ import unittest.mock
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.io as M
@@ -33,15 +34,20 @@ def t(src, dst):
         encoding = M.get_encoding()
     assert_equal(encoding, dst)
 
+@testcase
 def test_ascii():
     t('ANSI_X3.4-1968', 'UTF-8')
     t('US-ASCII', 'UTF-8')
     t('ASCII', 'UTF-8')
 
+@testcase
 def test_8bit():
     t('ISO-8859-2', 'ISO-8859-2')
 
+@testcase
 def test_utf8():
     t('UTF-8', 'UTF-8')
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

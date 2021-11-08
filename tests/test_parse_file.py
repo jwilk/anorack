@@ -24,6 +24,7 @@ from tests.tools import (
     assert_equal,
     assert_is,
     assert_is_instance,
+    testcase,
 )
 
 import lib.parser as M
@@ -41,15 +42,18 @@ def t(s, exp):
         assert_equal(xart, art)
         assert_equal(xword, word)
 
+@testcase
 def test_mid_line():
     t('Oh, yeah, an African swallow maybe,\nbut not a European swallow.\n', [
         (1, 'an', 'African'),
         (2, 'a', 'European'),
     ])
 
+@testcase
 def test_wrapped():
     t('I thought we were an\nautonomous collective.', (2, 'an', 'autonomous'))
 
+@testcase
 def test_quotes():
     t(
         "a 'scratch'\n"
@@ -59,9 +63,11 @@ def test_quotes():
         [(i, 'a', 'scratch') for i in range(1, 5)]
     )
 
+@testcase
 def test_underscore():
     t('a European_swallow', (1, 'a', 'European'))
 
+@testcase
 def test_numbers():
     t('an 8', (1, 'an', '8'))
     t('an 8bit', (1, 'an', '8'))
@@ -71,8 +77,11 @@ def test_numbers():
     t('a UTF-16', (1, 'a', 'UTF'))
     t('a UTF 16', (1, 'a', 'UTF'))
 
+@testcase
 def test_inner_apostrophe():
     t("Esra'a Al Shafei", [])
     t('Esra’a Al Shafei', [])
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

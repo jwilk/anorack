@@ -20,6 +20,7 @@
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 import lib.espeak as M
@@ -27,6 +28,7 @@ import lib.espeak as M
 def cmp(x, y):
     return (x > y) - (x < y)
 
+@testcase
 def test():
     versions = '''
     1
@@ -41,5 +43,7 @@ def test():
     for i1, v1 in enumerate(versions):
         for i2, v2 in enumerate(versions):
             assert_equal(M.vcmp(v1, v2), cmp(i1, i2))
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et

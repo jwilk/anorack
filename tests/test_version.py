@@ -22,6 +22,7 @@ import os
 
 from tests.tools import (
     assert_equal,
+    testcase,
 )
 
 from lib.version import __version__
@@ -29,6 +30,7 @@ from lib.version import __version__
 here = os.path.dirname(__file__)
 docdir = os.path.join(here, os.pardir, 'doc')
 
+@testcase
 def test_changelog():
     path = os.path.join(docdir, 'changelog')
     with open(path, 'rt', encoding='UTF-8') as file:
@@ -36,6 +38,7 @@ def test_changelog():
     changelog_version = line.split()[1].strip('()')
     assert_equal(changelog_version, __version__)
 
+@testcase
 def test_manpage():
     path = os.path.join(docdir, 'manpage.rst')
     manpage_version = None
@@ -45,5 +48,7 @@ def test_manpage():
                 manpage_version = line.split()[-1]
                 break
     assert_equal(manpage_version, __version__)
+
+del testcase
 
 # vim:ts=4 sts=4 sw=4 et
