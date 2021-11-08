@@ -39,9 +39,8 @@ jobs:
         sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
     - name: run tests
       run: |
-        python3 -m pip install --no-binary ':all:' nose
         # this may time out because of <https://bugs.python.org/issue35866>:
-        timeout 10s python3 -m nose --verbose
+        timeout 10s python3 -m unittest discover --verbose
     - name: run pydiatra
       run: |
         python3 -m pip install pydiatra
