@@ -26,13 +26,12 @@ import sys
 import tempfile
 import unittest.mock
 
-from nose.tools import (
+from tests.tools import (
     assert_equal,
     assert_is_instance,
     assert_not_equal,
+    isolation,
 )
-
-from tests.tools import isolation
 
 @contextlib.contextmanager
 def tmpcwd():

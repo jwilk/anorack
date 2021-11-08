@@ -20,7 +20,7 @@
 
 import os
 
-from nose.tools import (
+from tests.tools import (
     assert_equal,
 )
 

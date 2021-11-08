@@ -20,7 +20,7 @@
 
 import io
 
-from nose.tools import (
+from tests.tools import (
     assert_equal,
     assert_is,
     assert_is_instance,

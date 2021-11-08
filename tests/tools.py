@@ -22,6 +22,13 @@ import concurrent.futures
 import functools
 import sys
 
+from nose.tools import (
+    assert_equal,
+    assert_is,
+    assert_is_instance,
+    assert_not_equal,
+)
+
 def isolation(f):
     if 'coverage' in sys.modules:
         # Process isolation would break coverage measurements.
@@ -35,6 +42,13 @@ def isolation(f):
                 return ftr.result()
     return wrapper
 
-__all__ = ['isolation']
+__all__ = [
+    'isolation',
+    # nose:
+    'assert_equal',
+    'assert_is',
+    'assert_is_instance',
+    'assert_not_equal',
+]
 
 # vim:ts=4 sts=4 sw=4 et

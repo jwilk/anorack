@@ -20,11 +20,10 @@
 
 import functools
 
-from nose.tools import (
+from tests.tools import (
     assert_equal,
+    isolation,
 )
-
-from tests.tools import isolation
 
 import lib.phonetics as M
 

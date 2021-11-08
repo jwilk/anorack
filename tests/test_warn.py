@@ -21,7 +21,7 @@
 import io
 import unittest.mock
 
-from nose.tools import (
+from tests.tools import (
     assert_equal,
 )
 
