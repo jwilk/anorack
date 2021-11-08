@@ -1,5 +1,6 @@
 [run]
 branch = true
+source = lib
 
 [report]
 show_missing = true

@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+#!/bin/sh
 
-# Copyright © 2014 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2021 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
@@ -20,54 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import io
-import os
-import sys
+set -e -u
+cd "${0%/*}/.."
+true ${PYTHON:=python3}
+"$PYTHON" -m coverage run -m unittest discover
+cat > tests/coverage.tmp <<EOF
+Generated automatically by private/update-coverage. Do not edit.
 
-import nose
-import nose.plugins.cover
-
-class Coverage(nose.plugins.cover.Coverage):
-
-    stream = None
-
-    def report(self, stream):
-        return super().report(self.stream)
-
-basedir = os.path.join(
-    os.path.dirname(__file__),
-    os.pardir,
-)
-
-def main():
-    argv = [
-        sys.argv[0],
-        '--with-coverage',
-        '--cover-package=lib',
-        '--cover-erase',
-    ]
-    path = os.path.join(
-        'tests',
-        'coverage'
-    )
-    plugin = Coverage()
-    report_stream = plugin.stream = io.StringIO()
-    print(
-        'Generated automatically by private/update-coverage. '
-        'Do not edit.\n',
-        file=report_stream
-    )
-    ok = nose.run(argv=argv, plugins=[plugin])
-    if not ok:
-        sys.exit(1)
-    report_stream.seek(0)
-    with open(path + '.tmp', 'wt', encoding='ASCII') as file:
-        for line in report_stream:
-            line = line.rstrip()
-            print(line, file=file)
-    os.rename(path + '.tmp', path)
-
-if __name__ == '__main__':
-    main()
+EOF
+"$PYTHON" -m coverage report >> tests/coverage.tmp
+mv tests/coverage.tmp tests/coverage
 
 # vim:ts=4 sts=4 sw=4 et
