@@ -21,13 +21,7 @@
 import concurrent.futures
 import functools
 import sys
-
-from nose.tools import (
-    assert_equal,
-    assert_is,
-    assert_is_instance,
-    assert_not_equal,
-)
+import unittest
 
 def isolation(f):
     if 'coverage' in sys.modules:
@@ -41,6 +35,15 @@ def isolation(f):
                 ftr = executor.submit(f, *args, **kwargs)
                 return ftr.result()
     return wrapper
+
+tc = unittest.TestCase('__hash__')
+
+assert_equal = tc.assertEqual
+assert_is = tc.assertIs
+assert_is_instance = tc.assertIsInstance
+assert_not_equal = tc.assertNotEqual
+
+del tc
 
 __all__ = [
     'isolation',
