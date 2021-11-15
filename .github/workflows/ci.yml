@@ -44,7 +44,7 @@ jobs:
     - name: run tests
       run: |
         # this may time out because of <https://bugs.python.org/issue35866>:
-        timeout 10s python3 -m unittest discover --verbose
+        timeout 10s make test
     - name: run pydiatra
       run: |
         python3 -m pip install pydiatra
