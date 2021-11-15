@@ -61,7 +61,7 @@ endif
 
 .PHONY: test
 test:
-	$(PYTHON) -m unittest discover --verbose
+	$(PYTHON) -bb -m unittest discover --verbose
 
 .PHONY: clean
 clean:
