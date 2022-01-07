@@ -75,6 +75,7 @@ jobs:
         make install PREFIX=~/.local
     - name: check whether the executable was installed correctly
       run: |
+        cd /
         anorack --version
         anorack --help
     - name: check whether the man page was installed correctly
