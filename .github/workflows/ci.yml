@@ -37,9 +37,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{matrix.python-version}}
+    - name: set up APT
+      run: |
+        printf 'Apt::Install-Recommends "false";\n' | sudo tee -a /etc/apt/apt.conf
+        sudo apt-get update
     - name: install eSpeak
       run: |
-        sudo apt-get update
         sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
     - name: run tests
       run: |
