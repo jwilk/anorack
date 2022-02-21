@@ -7,14 +7,8 @@ jobs:
     strategy:
       matrix:
         include:
-        - python-version: '3.3'
-          os: ubuntu-18.04
-        - python-version: '3.4'
-          os: ubuntu-18.04
-        - python-version: '3.5'
-          os: ubuntu-18.04
         - python-version: '3.6'
-          os: ubuntu-20.04
+          os: ubuntu-18.04
         - python-version: '3.7'
           os: ubuntu-20.04
         - python-version: '3.8'
@@ -54,17 +48,12 @@ jobs:
         python3 -m pydiatra -v .
     - name: run pyflakes
       run: |
-        pyflakes=pyflakes
-        if [[ ${{matrix.python-version}} = 3.3 ]]; then pyflakes+='<2'; fi
-        python3 -m pip install $pyflakes
+        python3 -m pip install pyflakes
         python3 -m pyflakes .
     - name: run pylint
       run: |
         python3 -m pip install pylint
         private/run-pylint
-      if:
-        matrix.python-version != '3.3' &&
-        matrix.python-version != '3.4'
     - name: build docs
       run: |
         python3 -m pip install docutils
