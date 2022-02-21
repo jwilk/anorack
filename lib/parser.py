@@ -33,7 +33,7 @@ class Location():
         self.lineno = lineno
 
     def __str__(self):
-        return '{path}:{n}'.format(path=self.file.name, n=self.lineno)
+        return f'{self.file.name}:{self.lineno}'
 
 find_articles = re.compile(
     r'''(?<!\w['’])(?:\b(an?)\s+(?:['‘"“]\s*)?(\d+|[^\W\d_]+)|\b(an?)\s*$)''',

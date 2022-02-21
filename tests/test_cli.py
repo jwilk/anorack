@@ -165,11 +165,8 @@ def test_bad_io():
     argv = ['anorack', '/nonexistent', '-']
     actual = run_main(argv, 'a African')
     assert_equal('<stdin>:', actual.stdout[:8])
-    stderr = '{prog}: {path}: {err}\n'.format(
-        prog=argv[0],
-        path=argv[1],
-        err=os.strerror(errno.ENOENT)
-    )
+    err = os.strerror(errno.ENOENT)
+    stderr = f'{argv[0]}: {argv[1]}: {err}\n'
     assert_equal(stderr, actual.stderr)
     assert_equal(actual.rc, 1)
     argv[1:1] = ['--traceback']

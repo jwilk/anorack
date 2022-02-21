@@ -30,7 +30,7 @@ def warn(msg):
     print warning message
     '''
     prog = os.path.basename(sys.argv[0])
-    print('{prog}: warning: {msg}'.format(prog=prog, msg=msg), file=sys.stderr)
+    print(f'{prog}: warning: {msg}', file=sys.stderr)
 
 def _coerce_case(src, word):
     '''

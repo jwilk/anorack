@@ -94,7 +94,7 @@ def set_voice_by_name(s):
         elif rc == 1:
             msg = 'the command could not be buffered'
         else:
-            msg = 'unknown error {}'.format(rc)
+            msg = f'unknown error {rc}'
         raise RuntimeError('espeak_SetVoiceByName(): ' + msg)
 
 if vcmp(version, '1.48.1') >= 0:

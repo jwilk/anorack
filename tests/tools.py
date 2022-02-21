@@ -42,7 +42,7 @@ def testcase(f):
         def test():
             return f()
         def __str__(self):
-            return '{f.__module__}.{f.__name__}'.format(f=f)
+            return f'{f.__module__}.{f.__name__}'
     return TestCase
 
 tc = unittest.TestCase('__hash__')

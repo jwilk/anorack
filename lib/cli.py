@@ -52,12 +52,10 @@ class VersionAction(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string=None):
         from lib import espeak  # pylint: disable=import-outside-toplevel
-        print('{prog} {0}'.format(__version__, prog=parser.prog))
+        print(f'{parser.prog} {__version__}')
         print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
-        print('+ eSpeak{ng} {0}'.format(
-            espeak.version,
-            ng=(' NG' if espeak.ng else '')
-        ))
+        ng = ' NG' if espeak.ng else ''
+        print(f'+ eSpeak{ng} {espeak.version}')
         parser.exit()
 
 def check_word(loc, art, word, *, ipa=False):
@@ -67,16 +65,10 @@ def check_word(loc, art, word, *, ipa=False):
     phon = text_to_phonemes(word, ipa=ipa)
     correct_art = choose_art(phon)
     if correct_art is NotImplemented:
-        warn("can't determine correct article for {word!r} /{phon}/".format(word=word, phon=phon))
+        warn(f"can't determine correct article for {word!r} /{phon}/")
     elif art.lower() != correct_art:
         correct_art = coerce_case(art, correct_art)
-        print('{loc}: {art} {word} -> {cart} {word} /{phon}/'.format(
-            loc=loc,
-            art=art,
-            cart=correct_art,
-            word=word,
-            phon=phon,
-        ))
+        print(f'{loc}: {art} {word} -> {correct_art} {word} /{phon}/')
 
 def main():
     '''
@@ -101,7 +93,7 @@ def main():
         except OSError as exc:
             if options.traceback:
                 raise
-            msg = '{prog}: {path}: {exc}'.format(prog=ap.prog, path=path, exc=exc.strerror)
+            msg = f'{ap.prog}: {path}: {exc.strerror}'
             print(msg, file=sys.stderr)
             rc = 1
             continue
