@@ -1,8 +1,13 @@
 anorack (0.2.8) UNRELEASED; urgency=low
 
-  * 
+  * Drop support for Python < 3.6.
+  * Stop using the distutils module.
+    (It's deprecated and scheduled for removal in Python 3.12.)
+  * Improve the test suite:
+    + Stop using nose for the test suite.
+    + Disallow dubious operations on bytes.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 06 Oct 2021 19:40:45 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 25 Apr 2022 08:46:09 +0200
 
 anorack (0.2.7) unstable; urgency=low
 
