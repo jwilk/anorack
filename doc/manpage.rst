@@ -8,7 +8,7 @@ anorack
 
 :manual section: 1
 :version: anorack 0.2.8
-:date: 2021-10-06
+:date: 2022-04-25
 
 Synopsis
 --------
