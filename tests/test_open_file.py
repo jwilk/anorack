@@ -19,6 +19,8 @@
 # SOFTWARE.
 
 import os
+import sys
+import unittest
 
 from tests.tools import (
     assert_equal,
@@ -40,7 +42,8 @@ def test_open_real_file():
 
 @testcase
 def test_open_stdin():
-    t('-')
+    with unittest.mock.patch('sys.stdin', sys.__stdin__):
+        t('-')
 
 del testcase
 
