@@ -1,4 +1,4 @@
-anorack (0.2.8) UNRELEASED; urgency=low
+anorack (0.2.8) unstable; urgency=low
 
   * Drop support for Python < 3.6.
   * Stop using the distutils module.
@@ -7,7 +7,7 @@ anorack (0.2.8) UNRELEASED; urgency=low
     + Stop using nose for the test suite.
     + Disallow dubious operations on bytes.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 25 Apr 2022 08:46:09 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 24 Aug 2022 20:49:50 +0200
 
 anorack (0.2.7) unstable; urgency=low
 
