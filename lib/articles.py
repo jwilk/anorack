@@ -24,7 +24,7 @@ English articles
 
 from lib import phonetics
 
-accents = ''.join(phonetics.accents)
+accents = str.join('', phonetics.accents)
 
 def choose_art(phonemes):
     '''
