@@ -38,8 +38,9 @@ jobs:
         sudo apt-get install libespeak${{matrix.ng && '-ng'}}1
     - name: run tests
       run: |
-        # this may time out because of <https://bugs.python.org/issue35866>:
-        timeout 10s make test
+        make test
+      # may time out because of <https://bugs.python.org/issue35866>
+      timeout-minutes: 1
     - name: run pydiatra
       run: |
         python3 -m pip install pydiatra
