@@ -38,6 +38,9 @@ from lib.phonetics import init as init_phonetics, text_to_phonemes
 from lib.version import __version__
 
 class ArgumentParser(argparse.ArgumentParser):
+    '''
+    ArgumentParser with exit status 1
+    '''
 
     def exit(self, status=0, message=None):
         if status:
