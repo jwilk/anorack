@@ -37,6 +37,13 @@ from lib.parser import parse_file
 from lib.phonetics import init as init_phonetics, text_to_phonemes
 from lib.version import __version__
 
+class ArgumentParser(argparse.ArgumentParser):
+
+    def exit(self, status=0, message=None):
+        if status:
+            status = 1
+        argparse.ArgumentParser.exit(self, status=status, message=message)
+
 class VersionAction(argparse.Action):
     '''
     argparse --version action
@@ -75,7 +82,7 @@ def main():
     run the program
     '''
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
-    ap = argparse.ArgumentParser(description='"a" vs "an" checker')
+    ap = ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
     ap.add_argument('--ipa', action='store_true', help='use IPA instead of phoneme mnemonics')
     ap.add_argument('--traceback', action='store_true', help=argparse.SUPPRESS)
