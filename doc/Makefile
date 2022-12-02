@@ -43,7 +43,7 @@ check-changelog: changelog
 
 .PHONY: check-rst
 check-rst:
-	ls README *.rst | xargs -t -I{} $(rst2xml) --input-encoding=UTF-8 --strict {} /dev/null
+	ls README *.rst | xargs -t -I{} $(rst2xml) --input-encoding=UTF-8 --strict {} > /dev/null
 
 .PHONY: clean
 clean:
