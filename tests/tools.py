@@ -56,10 +56,9 @@ del tc
 
 class TestCase(unittest.TestCase):
     def __str__(self):
-        return '{cls}.{name}'.format(
-            cls=unittest.util.strclass(self.__class__),
-            name=self._testMethodName,
-        )
+        cls = unittest.util.strclass(self.__class__)
+        name = self._testMethodName
+        return f'{cls}.{name}'
 
 __all__ = [
     'isolation',
