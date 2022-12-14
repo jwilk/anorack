@@ -192,6 +192,14 @@ def test_version():
     assert_equal('', actual.stderr)
     assert_equal(actual.rc, 0)
 
+@testcase
+def test_bad_arg():
+    argv = ['anorack', '---']
+    actual = run_main(argv, None)
+    assert_equal('', actual.stdout)
+    assert_not_equal('', actual.stderr)
+    assert_equal(actual.rc, 1)
+
 del testcase
 
 # vim:ts=4 sts=4 sw=4 et
