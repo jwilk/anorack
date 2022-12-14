@@ -4,12 +4,12 @@ Name               Stmts   Miss Branch BrPart  Cover   Missing
 --------------------------------------------------------------
 lib/__init__.py        1      0      0      0   100%
 lib/articles.py       14      0      4      0   100%
-lib/cli.py            57      0     14      0   100%
+lib/cli.py            62      0     14      0   100%
 lib/espeak.py         55      0      6      0   100%
 lib/io.py             16      0      4      0   100%
 lib/misc.py           13      0      2      0   100%
-lib/parser.py         22      0      8      0   100%
+lib/parser.py         22      0      6      0   100%
 lib/phonetics.py      27      0      6      0   100%
 lib/version.py         1      0      0      0   100%
 --------------------------------------------------------------
-TOTAL                206      0     44      0   100%
+TOTAL                211      0     42      0   100%
