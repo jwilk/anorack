@@ -28,8 +28,6 @@ import sys
 
 from lib.articles import choose_art
 from lib.io import (
-    get_encoding,
-    wrap_file,
     open_file,
 )
 from lib.misc import coerce_case, warn
@@ -95,17 +93,12 @@ def main():
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
     options = ap.parse_args()
-    encoding = get_encoding(sys.stdout)
-    for fp in sys.stdout, sys.stderr:
-        fp.flush()
-    sys.stdout = wrap_file(sys.stdout)
-    sys.stderr = wrap_file(sys.stderr)
     init_phonetics()
     ok = True
     rc = 0
     for path in options.files:
         try:
-            file = open_file(path, encoding=encoding, errors='replace')
+            file = open_file(path, encoding=sys.stdout.encoding, errors='replace')
         except OSError as exc:
             if options.traceback:
                 raise

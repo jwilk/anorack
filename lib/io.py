@@ -35,31 +35,6 @@ def enc_eq(e1, e2):
         codecs.lookup(e2).name
     )
 
-def get_encoding(file):
-    '''
-    get file encoding (from sys.stdout);
-    upgrade ASCII to UTF-8
-    '''
-    encoding = file.encoding
-    if enc_eq(encoding, 'ASCII'):
-        return 'UTF-8'
-    else:
-        return encoding
-
-def wrap_file(file):
-    '''
-    wrap file to upgrade encoding from ASCII to UTF-8
-    '''
-    new_encoding = get_encoding(file)
-    if new_encoding == file.encoding:
-        return file
-    return io.TextIOWrapper(
-        file.buffer,
-        encoding=new_encoding,
-        errors=file.errors,
-        line_buffering=file.line_buffering
-    )
-
 def open_file(path, *, encoding, errors):
     '''
     open() with special case for "-"
@@ -78,7 +53,6 @@ def open_file(path, *, encoding, errors):
         )
 
 __all__ = [
-    'get_encoding',
     'open_file',
 ]
 
