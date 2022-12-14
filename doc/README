@@ -24,7 +24,7 @@ that finds incorrect indefinite articles:
 Prerequisites
 =============
 
-* Python ≥ 3.6
+* Python ≥ 3.7
 
 * `eSpeak NG`_ or eSpeak_ ≥ 1.47.08 (shared library only)
 
