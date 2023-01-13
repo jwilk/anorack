@@ -87,7 +87,7 @@ def main():
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     ap = ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
-    ap.add_argument('--ipa', action='store_true', help='use IPA instead of phoneme mnemonics')
+    ap.add_argument('--ipa', action='store_true', help='use IPA instead of ASCII phoneme mnemonics')
     ap.add_argument('--traceback', action='store_true', help=argparse.SUPPRESS)
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
         help='file to check (default: stdin)')
