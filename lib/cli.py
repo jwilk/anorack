@@ -96,6 +96,8 @@ def main():
         help='file to check (default: stdin)')
     options = ap.parse_args()
     encoding = get_encoding()
+    for fp in sys.stdout, sys.stderr:
+        fp.flush()
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding, line_buffering=sys.stdout.line_buffering)
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding, line_buffering=sys.stderr.line_buffering)
     init_phonetics()
