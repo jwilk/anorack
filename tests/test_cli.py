@@ -177,6 +177,14 @@ def test_bad_io():
     assert_equal(actual.rc.errno, errno.ENOENT)
 
 @testcase
+def test_e():
+    argv = ['anorack', '-e']
+    actual = run_main(argv, 'a African')
+    assert_equal('<stdin>:', actual.stdout[:8])
+    assert_equal('', actual.stderr)
+    assert_equal(actual.rc, 2)
+
+@testcase
 def test_changelog():
     argv = ['anorack', 'doc/changelog']
     actual = run_main(argv, None)

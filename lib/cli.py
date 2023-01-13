@@ -79,6 +79,8 @@ def check_word(loc, art, word, *, ipa=False):
     elif art.lower() != correct_art:
         correct_art = coerce_case(art, correct_art)
         print(f'{loc}: {art} {word} -> {correct_art} {word} /{phon}/')
+        return False
+    return True
 
 def main():
     '''
@@ -87,6 +89,7 @@ def main():
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     ap = ArgumentParser(description='"a" vs "an" checker')
     ap.add_argument('--version', action=VersionAction)
+    ap.add_argument('-e', action='store_true', help='exit with non-zero status if issues were found')
     ap.add_argument('--ipa', action='store_true', help='use IPA instead of ASCII phoneme mnemonics')
     ap.add_argument('--traceback', action='store_true', help=argparse.SUPPRESS)
     ap.add_argument('files', metavar='FILE', nargs='*', default=['-'],
@@ -96,6 +99,7 @@ def main():
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding, line_buffering=sys.stdout.line_buffering)
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding, line_buffering=sys.stdout.line_buffering)
     init_phonetics()
+    ok = True
     rc = 0
     for path in options.files:
         try:
@@ -109,7 +113,9 @@ def main():
             continue
         with file:
             for loc, art, word in parse_file(file):
-                check_word(loc, art, word, ipa=options.ipa)
+                ok &= check_word(loc, art, word, ipa=options.ipa)
+    if rc == 0 and options.e and not ok:
+        rc = 2
     sys.exit(rc)
 
 __all__ = ['main']

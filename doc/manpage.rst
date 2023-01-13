@@ -28,6 +28,8 @@ that finds incorrect indefinite articles.
 Options
 -------
 
+-e
+   Exit with non-zero status if any incorrect articles were found.
 --ipa
    Print phonemes using IPA (International Phonetic Alphabet)
    instead of ASCII phoneme mnemonics.
