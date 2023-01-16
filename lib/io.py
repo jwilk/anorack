@@ -35,16 +35,27 @@ def enc_eq(e1, e2):
         codecs.lookup(e2).name
     )
 
-def get_encoding():
+def get_encoding(file):
     '''
-    get locale encoding (from sys.stdout);
+    get file encoding (from sys.stdout);
     upgrade ASCII to UTF-8
     '''
-    locale_encoding = sys.stdout.encoding
-    if enc_eq(locale_encoding, 'ASCII'):
+    encoding = file.encoding
+    if enc_eq(encoding, 'ASCII'):
         return 'UTF-8'
     else:
-        return locale_encoding
+        return encoding
+
+def wrap_file(file):
+    '''
+    wrap file to upgrade encoding from ASCII to UTF-8
+    '''
+    new_encoding = get_encoding(file)
+    return io.TextIOWrapper(
+        file.buffer,
+        encoding=new_encoding,
+        line_buffering=file.line_buffering
+    )
 
 def open_file(path, *, encoding, errors):
     '''

@@ -1,4 +1,4 @@
-# Copyright © 2016-2021 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2016-2023 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
@@ -18,7 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import io
 import os
+import random
 
 from tests.tools import (
     assert_equal,
@@ -28,9 +30,11 @@ from tests.tools import (
 import lib.io as M
 
 def t(src, dst):
-    with open(os.devnull, 'rt', encoding=src) as file:
-        encoding = M.get_encoding(file)
-    assert_equal(encoding, dst)
+    buffering = random.choice([1, io.DEFAULT_BUFFER_SIZE])
+    with open(os.devnull, 'rt', encoding=src, buffering=buffering) as file:
+        wfile = M.wrap_file(file)
+    assert_equal(wfile.encoding, dst)
+    assert_equal(wfile.line_buffering, file.line_buffering)
 
 @testcase
 def test_ascii():
