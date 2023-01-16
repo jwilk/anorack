@@ -56,6 +56,7 @@ def wrap_file(file):
     return io.TextIOWrapper(
         file.buffer,
         encoding=new_encoding,
+        errors=file.errors,
         line_buffering=file.line_buffering
     )
 

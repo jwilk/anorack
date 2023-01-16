@@ -30,10 +30,20 @@ from tests.tools import (
 import lib.io as M
 
 def t(src, dst):
+    errors = random.choice([
+        'strict',
+        'ignore',
+        'replace',
+        'surrogateescape',
+        'xmlcharrefreplace',
+        'backslashreplace',
+        'namereplace',
+    ])
     buffering = random.choice([1, io.DEFAULT_BUFFER_SIZE])
-    with open(os.devnull, 'rt', encoding=src, buffering=buffering) as file:
+    with open(os.devnull, 'rt', encoding=src, errors=errors, buffering=buffering) as file:
         wfile = M.wrap_file(file)
     assert_equal(wfile.encoding, dst)
+    assert_equal(wfile.errors, file.errors)
     assert_equal(wfile.line_buffering, file.line_buffering)
 
 @testcase
