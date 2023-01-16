@@ -51,6 +51,8 @@ def wrap_file(file):
     wrap file to upgrade encoding from ASCII to UTF-8
     '''
     new_encoding = get_encoding(file)
+    if new_encoding == file.encoding:
+        return file
     return io.TextIOWrapper(
         file.buffer,
         encoding=new_encoding,
