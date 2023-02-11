@@ -1,8 +1,21 @@
 anorack (0.3) UNRELEASED; urgency=low
 
-  * 
+  * Add the -e option (to exit with non-zero status if any incorrect articles
+    were found).
+    https://github.com/jwilk/anorack/issues/9
+  * Clarify help message for --ipa.
+  * Improve README:
+    + Use HTTPS for espeak.sourceforge.net.
+    + Clarify that only eSpeak (NG) shared library is needed.
+  * Improve the build system:
+    + Don't rely on 2nd arg of rst2xml(1) being output file.
+      https://sourceforge.net/p/docutils/feature-requests/36/#0709
+  * Fix minor bugs in IO:
+    + Fix stderr buffering.
+    + Don't reset encoding error handler to “strict”.
+  * Exit with status 1 (not 2) on argument parsing error.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 16 Jan 2023 21:43:09 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Feb 2023 18:29:06 +0100
 
 anorack (0.2.8) unstable; urgency=low
 
