@@ -8,7 +8,7 @@ anorack (0.3) UNRELEASED; urgency=low
     + Use HTTPS for espeak.sourceforge.net.
     + Clarify that only eSpeak (NG) shared library is needed.
   * Improve the build system:
-    + Don't rely on 2nd arg of rst2xml(1) being output file.
+    + Don't rely on the second argument of rst2xml(1) being the output file.
       https://sourceforge.net/p/docutils/feature-requests/36/#0709
   * Fix minor bugs in IO:
     + Fix stderr buffering.
