@@ -54,8 +54,8 @@ anorack (0.2.5) unstable; urgency=low
     (If there are many input files, it's helpful to continue when one of them
     cannot be opened.)
   * Improve the build system:
-    + Check Python version on install. (Only when DESTDIR is not set.)
-    + Byte-compile Python code on install.
+    + Check Python version on install.
+    + Byte-compile Python code on install (if DESTDIR is not set).
     + Add checks against BSD make. (Only GNU make is supported.)
     + Don't require GNU install(1).
     + Remove the test coverage file in the clean target.
