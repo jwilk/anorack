@@ -52,6 +52,7 @@ def _init_test_overrides():
     add('UTF', "j,u:t,i:;'Ef", 'jˌuːtˌiːˈɛf')
     add('UTS', "j,u:t,i:;'Es", 'jˌuːtˌiːˈɛs')
     add('UUID', "j,u:j,u:,aId'i:", 'jˌuːjˌuːˌaɪdˈiː')
+    add('UUIDv', "j,u:j,u:,aId'i: v'i:", 'jˌuːjˌuːˌaɪdˈiː vˈiː')
     add('src', "s'o@s", 'sˈɔːs')
     add('unary', "j'un@ri", "jˈunəɹi")
     add('usr', "j,u:,Es'A@", "jˌuːˌɛsˈɑː")
