@@ -49,7 +49,7 @@ def TextIO(s=None, *, name):
     fp.name = name
     return io.TextIOWrapper(fp, encoding='UTF-8')
 
-class CompletedProcess():
+class CompletedProcess:
     def __init__(self, rc, stdout, stderr):
         self.rc = rc
         self.stdout = stdout

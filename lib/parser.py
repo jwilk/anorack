@@ -24,7 +24,7 @@ English parser
 
 import re
 
-class Location():
+class Location:
     '''
     location in a file
     '''
