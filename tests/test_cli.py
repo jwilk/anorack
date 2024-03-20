@@ -150,7 +150,8 @@ def test_files():
 
 @testcase
 def test_warning():
-    def dummy_choose_art(phon):  # pylint: disable=unused-argument
+    def dummy_choose_art(phon):
+        del phon
         return NotImplemented
     with unittest.mock.patch('lib.cli.choose_art', dummy_choose_art):
         t(
