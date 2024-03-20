@@ -28,6 +28,7 @@ if basedir is not None:
     sys.path[:0] = [basedir]
 
 import lib.cli  # pylint: disable=wrong-import-position
+
 if __name__ == '__main__':
     lib.cli.main()
 
