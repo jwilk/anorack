@@ -49,10 +49,14 @@ def init():
     from . import espeak  # pylint: disable=redefined-outer-name,import-outside-toplevel
     espeak.init()
     espeak.set_voice_by_name('en')
-    here = os.path.dirname(__file__)
+    libdir = os.path.dirname(__file__)
+    if __package__ == 'lib':
+        basedir = f'{libdir}/..'
+    else:
+        basedir = libdir
     # Ideally false positives should be fixed in eSpeak,
     # but as a stop-gap measure, we carry data file to correct some of them.
-    path = f'{here}/../data/overrides'
+    path = f'{basedir}/data/overrides'
     with open(path, 'rt', encoding='UTF-8') as file:
         for line in file:
             line = line.strip()
