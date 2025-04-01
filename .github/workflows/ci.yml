@@ -76,5 +76,16 @@ jobs:
       run: |
         cd /
         man 1 anorack | grep -A 10 -w ANORACK
+    - name: uninstall
+      run: |
+        rm -rvf ~/.local/bin/anorack ~/.local/share/anorack
+    - name: (pip) install
+      run: |
+        python3 -m pip install -v .
+    - name: (pip) check if the executable was installed correctly
+      run: |
+        cd /
+        anorack --version
+        anorack < /dev/null
 
 # vim:ts=2 sts=2 sw=2 et
