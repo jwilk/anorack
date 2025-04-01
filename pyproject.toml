@@ -1,0 +1,25 @@
+# experimental support for building Python wheels
+
+# this project is NOT hosted on PyPI
+
+[project]
+name = "anorack"
+dynamic = ["version"]
+requires-python = ">= 3.7"
+scripts.anorack = "_anorack.cli:main"
+
+[build-system]
+requires = ["setuptools >= 61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+dynamic.version = {attr = "_anorack.version.__version__"}
+packages = ["_anorack", "_anorack.data"]
+package-dir = {"_anorack" = "lib", "_anorack.data" = "data"}
+package-data."_anorack.data" = ["*"]
+
+[tool.distutils.sdist]
+# building sdist is not supported
+disabled = true
+
+# vim:ts=4 sts=4 sw=4 et
