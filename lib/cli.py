@@ -26,14 +26,14 @@ import argparse
 import signal
 import sys
 
-from lib.articles import choose_art
-from lib.io import (
+from .articles import choose_art
+from .io import (
     open_file,
 )
-from lib.misc import coerce_case, warn
-from lib.parser import parse_file
-from lib.phonetics import init as init_phonetics, text_to_phonemes
-from lib.version import __version__
+from .misc import coerce_case, warn
+from .parser import parse_file
+from .phonetics import init as init_phonetics, text_to_phonemes
+from .version import __version__
 
 class ArgumentParser(argparse.ArgumentParser):
     '''
@@ -59,7 +59,7 @@ class VersionAction(argparse.Action):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
-        from lib import espeak  # pylint: disable=import-outside-toplevel
+        from . import espeak  # pylint: disable=import-outside-toplevel
         print(f'{parser.prog} {__version__}')
         print('+ Python {0}.{1}.{2}'.format(*sys.version_info))
         ng = ' NG' if espeak.ng else ''

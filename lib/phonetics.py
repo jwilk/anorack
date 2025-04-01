@@ -46,7 +46,7 @@ def init():
     initialize underlying speech engine
     '''
     global espeak  # pylint: disable=global-statement,global-variable-not-assigned
-    from lib import espeak  # pylint: disable=redefined-outer-name,import-outside-toplevel
+    from . import espeak  # pylint: disable=redefined-outer-name,import-outside-toplevel
     espeak.init()
     espeak.set_voice_by_name('en')
     here = os.path.dirname(__file__)

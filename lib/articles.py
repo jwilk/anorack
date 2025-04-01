@@ -22,7 +22,7 @@
 English articles
 '''
 
-from lib import phonetics
+from . import phonetics
 
 accents = str.join('', phonetics.accents)
 
