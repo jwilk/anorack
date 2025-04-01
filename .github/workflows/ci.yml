@@ -68,7 +68,7 @@ jobs:
       run: |
         cd /
         anorack --version
-        anorack --help
+        anorack < /dev/null
     - name: check whether the man page was installed correctly
       env:
         MANPATH: /home/runner/.local/share/man
