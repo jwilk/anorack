@@ -3,7 +3,7 @@ anorack (0.3) UNRELEASED; urgency=low
   * Add the -e option (to exit with non-zero status if any incorrect articles
     were found).
     https://github.com/jwilk/anorack/issues/9
-  * Fix false positives for phrases “a UUIDv4” etc.
+  * Add override for “UUIDv” (as in “UUIDv4”).
   * Clarify help message for --ipa.
   * Improve README:
     + Use HTTPS for espeak.sourceforge.net.
