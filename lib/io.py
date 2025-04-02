@@ -26,15 +26,6 @@ import codecs
 import io
 import sys
 
-def enc_eq(e1, e2):
-    '''
-    check if two encodings are equal
-    '''
-    return (
-        codecs.lookup(e1).name ==
-        codecs.lookup(e2).name
-    )
-
 def open_file(path, *, encoding, errors):
     '''
     open() with special case for "-"
