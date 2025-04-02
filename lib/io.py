@@ -22,7 +22,6 @@
 I/O and encodings
 '''
 
-import codecs
 import io
 import sys
 
