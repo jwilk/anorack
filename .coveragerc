@@ -4,6 +4,6 @@ source = lib
 
 [report]
 show_missing = true
-exclude_lines = # no coverage
+exclude_lines = # (no coverage|Python >= [0-9.]+ is required)
 
 # vim:ft=dosini
