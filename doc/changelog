@@ -1,4 +1,4 @@
-anorack (0.3) UNRELEASED; urgency=low
+anorack (0.3) unstable; urgency=low
 
   * Add the -e option (to exit with non-zero status if any incorrect articles
     were found).
@@ -14,7 +14,7 @@ anorack (0.3) UNRELEASED; urgency=low
   * Exit with status 1 (not 2) on argument parsing error.
   * Drop support for Python < 3.7.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 02 Apr 2025 17:06:51 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 02 Apr 2025 19:04:39 +0200
 
 anorack (0.2.8) unstable; urgency=low
 
