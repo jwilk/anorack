@@ -29,7 +29,7 @@ anorack (0.2.8) unstable; urgency=low
 
 anorack (0.2.7) unstable; urgency=low
 
-  * Add override for "UPS".
+  * Add override for “UPS”.
     https://github.com/jwilk/anorack/issues/6
     Thanks to Martin Michlmayr for the bug report.
   * Fix parsing words with intra-word apostrophes.
@@ -40,7 +40,7 @@ anorack (0.2.7) unstable; urgency=low
 
 anorack (0.2.6) unstable; urgency=low
 
-  * Add override for "src".
+  * Add override for “src”.
     https://github.com/jwilk/anorack/issues/5
     Thanks to Paul Wise and Emmanuel Arias for the bug report.
 
