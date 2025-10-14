@@ -20,6 +20,7 @@
 
 import concurrent.futures
 import functools
+import multiprocessing
 import sys
 import unittest
 
@@ -31,7 +32,8 @@ def isolation(f):
     else:
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
-            with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
+            mp_context = multiprocessing.get_context('fork')
+            with concurrent.futures.ProcessPoolExecutor(max_workers=1, mp_context=mp_context) as executor:
                 ftr = executor.submit(f, *args, **kwargs)
                 return ftr.result()
     return wrapper
