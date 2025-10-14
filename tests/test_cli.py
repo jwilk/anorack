@@ -83,7 +83,9 @@ def __run_main(argv, stdin):
 def _run_main(argv, stdin):
     # abuse mock to save&restore sys.argv, sys.stdin, etc.:
     with unittest.mock.patch.multiple(sys, argv=None, stdin=None, stdout=None, stderr=None):
-        return CompletedProcess(*__run_main(argv, stdin))
+        # hide "python3 -m unittest"-ing from argparse:
+        with unittest.mock.patch.multiple(sys.modules['__main__'], __spec__=None):
+            return CompletedProcess(*__run_main(argv, stdin))
 
 run_main = isolation(_run_main)
 
