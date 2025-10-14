@@ -75,6 +75,6 @@ jobs:
         MANWIDTH: 80
       run: |
         cd /
-        man 1 anorack | grep -A 10 -w ANORACK
+        man 1 anorack | grep -A 10 -iw ANORACK
 
 # vim:ts=2 sts=2 sw=2 et
