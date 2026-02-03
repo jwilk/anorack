@@ -84,6 +84,7 @@ def main():
     '''
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     ap = ArgumentParser(description='"a" vs "an" checker')
+    ap.color = False
     ap.add_argument('--version', action=VersionAction)
     ap.add_argument('-e', action='store_true', help='exit with non-zero status if issues were found')
     ap.add_argument('--ipa', action='store_true', help='use IPA instead of ASCII phoneme mnemonics')
